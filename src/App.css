@@ -7,6 +7,19 @@
   pointer-events: none;
 }
 
+.marg {
+  margin-top: 4rem !important;
+}
+
+:disabled {
+  cursor: not-allowed !important;
+}
+
+.image {
+  height: 200px;
+  width: 150px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -28,6 +41,80 @@
   color: #61dafb;
 }
 
+.dec_hi {
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 56px !important;
+}
+
+.cat_hi {
+  height: 56.2px !important;
+}
+
+.option {
+  color: #61dafb;
+}
+
+.chips {
+  background: #61dafb;
+}
+
+#categoryUL li:first-child {
+  height: 56.3px !important;
+}
+#subCategoryUL li:first-child {
+  height: 56.9px !important;
+}
+
+/* .modal_hi {
+  overflow: auto;
+  height: 25rem;
+} */
+
+.paginationBttns {
+  padding-top: 1rem;
+  /* width: 80%; */
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  justify-content: right;
+}
+
+.paginationBttns a {
+  padding: 10px;
+  margin: 8px;
+  border-radius: 5px;
+  border: 1px solid gray;
+  color: rgba(0, 0, 0, 0.63);
+  cursor: pointer;
+}
+
+.paginationBttns a:hover {
+  color: white;
+  background-color: gray;
+}
+
+.paginationActive a {
+  color: white;
+  background-color: gray;
+}
+
+.paginationDisabled a {
+  cursor: not-allowed;
+  color: darkGray;
+  border: 1px solid darkGray;
+}
+
+.paginationDisabled a:hover {
+  color: white;
+  background-color: darkgray;
+}
+
+.margin-top {
+  margin-top: 5px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +122,122 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* //media query */
+@media only screen and (max-width: 1024px) {
+  .scr-h {
+    width: 100vh;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .left_cont {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .scr-h {
+    width: 110vh;
+  }
+  .side {
+    margin-left: 0rem;
+  }
+  .date_in {
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 540px) {
+  .app_head {
+    font-size: 20px;
+    line-height: 1rem;
+  }
+  .main_layout {
+    width: 90% !important;
+  }
+  .left_cont {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  .rght_txt {
+    font-size: 0.875rem;
+  }
+  .scr-h {
+    width: 156vh;
+  }
+}
+@media only screen and (max-width: 415px) {
+  .left_cont {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  .small_txt {
+    font-size: 11px;
+    line-height: 0.9rem;
+  }
+  .right_cont {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .app_head {
+    font-size: 15px;
+  }
+}
+@media only screen and (max-width: 375px) {
+  .scr-h {
+    width: 170vh;
+  }
+}
+@media only screen and (max-width: 320px) {
+  .left_cont {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  .move_top {
+    padding-top: 5rem;
+  }
+  .rght_txt {
+    margin-top: 1rem;
+    font-size: 11px;
+  }
+  .scr-h {
+    width: 200vh;
+  }
+}
+@media only screen and (max-width: 375px) {
+  input {
+    font-size: 14px;
+  }
+}
+
+.fixedHeight {
+  height: 56.5px !important;
+  transition: 1s height;
+}
+
+@media only screen and (max-width: 700px) {
+  .fixedHeight {
+    height: 80.5px !important;
+  }
+}
+
+.subCatleft {
+  margin-left: 2rem;
+}
+
+.subCatRight {
+  margin-right: -0.5rem;
+}
+
+.app-intro {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+.modal-backdrop {
+  z-index: -1;
 }
