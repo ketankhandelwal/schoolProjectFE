@@ -11,17 +11,19 @@ import iconSubAdminManage from "../../assets/Icons/sub-adminManagement.svg";
 import helpIcon from "../../assets/Icons/help.svg";
 import appIntroIcon from "../../assets/Icons/appIntro.svg"
 import { NavLink } from "react-router-dom";
+import staffCompressed from '../../assets/Icons/staffCompressed.svg'
+import {GiThreeFriends} from 'react-icons/gi'
 export default function Navbar(props) {
   const adminData = useSelector((state) => state.auth.adminData);
   const { pathname } = useLocation();
   const sideBarData = [
-    {
-      id: 7,
-      tittle: "Dashboard",
-      icon: iconDash,
-      url: "/dashboard",
-      status: 1,
-    },
+    // {
+    //   id: 7,
+    //   tittle: "Dashboard",
+    //   icon: iconDash,
+    //   url: "/dashboard",
+    //   status: 1,
+    // },
     {
       id: 1,
       tittle: "User Management",
@@ -29,13 +31,13 @@ export default function Navbar(props) {
       url: "/userManagement",
       status: 1,
     },
-    // {
-    //   id: 2,
-    //   tittle: "Content Management",
-    //   icon: iconContentManage,
-    //   url: "/contentManagement",
-    //   status: 1,
-    // },
+    {
+      id: 2,
+      tittle: "Staff Management",
+      icon: staffCompressed,
+      url: "/staffManagement",
+      status: 1,
+    },
     // {
     //   id: 3,
     //   tittle: "Category Management",
@@ -116,7 +118,7 @@ export default function Navbar(props) {
                       pathname.search(item.url) !== -1 && "bg-navActiveColoe"
                     }`}
                   >
-                    <img className="mr-4 pl-5" src={item.icon} />
+                    <img className="mr-4 pl-5 w-14" src={item.icon} />
                     {!props.toggleSideBar ? (
                       <span className="my-2">{item.tittle}</span>
                     ) : (

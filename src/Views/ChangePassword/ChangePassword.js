@@ -44,7 +44,7 @@ export default function ChangePassword() {
         {loading && <LoadingSpinner />}
             <div className='mx-6 mt-5'>
                 <div className='flex flex-row justify-end my-4'>
-                    <button onClick={()=>navigate('/dashboard')} className='bg-bodyColor bg-teal-600 hover:shadow-customShadow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type='submit'>Back</button>
+                    <button onClick={()=>navigate('/userManagement')} className='bg-bodyColor bg-teal-600 hover:shadow-customShadow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline' type='submit'>Back</button>
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className='divide-y w-3/4 border border-gray-400 rounded-xl p-4'>

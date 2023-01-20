@@ -115,11 +115,11 @@ export default function Login() {
             {/* {errors.password?.type == 'pattern' && <p className="text-red-500 text-xs italic">Please enter a Password consists of length 8 to 15 characters, 1 upper case, lower case, special character and number</p>} */}
           </div>
 
-          <div className="mb-8 float-right">
+          {/* <div className="mb-8 float-right">
             <NavLink to="/forgot-password" className="text-black-700 underline">
               Forgot Password ?
             </NavLink>
-          </div>
+          </div> */}
           <div className="mb-8">
             <button
               className="bg-btnColor bg-teal-600 w-full hover:shadow-customShadow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -131,7 +131,7 @@ export default function Login() {
         </form>
         <div className=" flex justify-end items-center max-w-[1140px] w-full py-8 m-auto border-t-4">
         <div className="flex items-center justify-center m-auto w-full">
-          <h2>Developed By - KETAN KHANDELWAL</h2>
+          <h1>Developed By- RAJ KUMAR KHANDELWAL</h1>
        
         </div>
 

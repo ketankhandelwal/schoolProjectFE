@@ -1,14 +1,11 @@
 import { toast } from "react-toastify";
 
-const baseURL = 'http://localhost:3005/';
+const baseURL = "http://localhost:3005/";
 
 export const Get = (Url, token, data) => {
-  console.log(token,Url,data);
- 
-  
+
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(baseURL,Url,data);
       const response = await fetch(
         data ? `${baseURL}${Url}${data}` : `${baseURL}${Url}`,
         {
@@ -35,12 +32,11 @@ export const Get = (Url, token, data) => {
 };
 
 export const Post = (Url, token, data) => {
-  console.log(data);
+  console.log(data)
 
-
-  
   return new Promise(async (resolve, reject) => {
     try {
+      
       const response = await fetch(`${baseURL}${Url}`, {
         body: data ? JSON.stringify(data) : "",
         headers: {
@@ -53,9 +49,11 @@ export const Post = (Url, token, data) => {
       if (response.statusCode === 201) {
         resolve(response);
       } else {
+        
         reject(response);
       }
     } catch (error) {
+      
       toast.error(error.message);
     }
   });
@@ -148,7 +146,7 @@ export const Delete2 = (Url, token, data) => {
       } else {
         reject(response);
         if (response.statusCode == 401) {
-           window.location.href = "/#/login";
+          window.location.href = "/#/login";
         }
       }
     } catch (error) {

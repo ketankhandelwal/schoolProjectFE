@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-// import Widgets from '../../../Components/Widget/Widgets';
 import dummyUser from "../../../assets/Icons/dummyUser.svg";
 import { Get } from "../../../Constants/apiMethods";
 import editIcon from "../../../assets/Icons/editIcon.svg";
 import {
-  getUserDetails,
-  studentTotalFeesDetails,
+  getStaffDetails,
+  staffLeavesDetails,
 } from "../../../Constants/apiRoutes";
 import { useLocation, useNavigate } from "react-router";
 import moment from "moment";
 import LoadingSpinner from "../../../Components/Loader/index";
 import Table from "../../../Components/Table/Table";
 
-export default function UserDetails() {
+export default function StaffDetails() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [engagementsDetails, setEngagementsDetails] = useState([]);
@@ -23,16 +22,16 @@ export default function UserDetails() {
   const token = localStorage.getItem("access_token");
 
   useEffect(() => {
-    getUserDetail();
-    getStudentFees();
+    getStaffDetail();
+    getStaffLeaves();
   }, []);
 
-  let getUserDetail = async () => {
+  let getStaffDetail = async () => {
     setLoading(true);
 
     const payload = `/${id}`;
 
-    Get(getUserDetails, token, payload)
+    Get(getStaffDetails, token, payload)
       .then((response) => response)
       .then((data) => {
         setUser(data.data);
@@ -40,9 +39,9 @@ export default function UserDetails() {
       });
   };
 
-  let getStudentFees = async () => {
+  let getStaffLeaves = async () => {
     const payload = `/${id}`;
-    Get(studentTotalFeesDetails, token, payload)
+    Get(staffLeavesDetails, token, payload)
       .then((response) => response)
       .then((data) => {
         setEngagementsDetails(data?.data?.response);
@@ -51,33 +50,9 @@ export default function UserDetails() {
       });
   };
 
-  // const getUserDetail = () => {
-  //   setLoading(true);
 
-  //   const payload = `/${id}`;
 
-  //   Get(getUserDetails, token, payload)
-  //     .then((response) => response)
-  //     .then((data) => {
 
-  //       setUser(data.data);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // const getStudentFees = () => {
-  //   setLoading(true);
-  //   const payload = `/${id}`;
-  //   Get(studentTotalFeesDetails, token, payload)
-  //     .then((response) => response)
-  //     .then((data) => {
-
-  //       setEngagementsDetails( data?.data?.response);
-  //       setTotalActions( data.data.totalActions);
-  //       setLoading(false);
-
-  //     });
-  // };
 
   const field = [
     "Month",
@@ -94,7 +69,7 @@ export default function UserDetails() {
       {loading && <LoadingSpinner />}
 
       <div className="mx-6 mt-2">
-        <h1 className="text-2xl">Student Management &gt; {userDetail?.name}</h1>
+        <h1 className="text-2xl">Staff Management &gt; {userDetail?.name}</h1>
       </div>
       <div className="mx-6">
         <div className="flex flex-row justify-end my-4 ">
@@ -103,13 +78,13 @@ export default function UserDetails() {
             className="rounded-md mr-3 bg-slate-200 hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             src={editIcon}
             onClick={() =>
-              navigate("EditUser", {
+              navigate("EditStaff", {
                 state: { id: userDetail?.id },
               })
             }
           />
           <button
-            onClick={() => navigate("/userManagement")}
+            onClick={() => navigate("/staffManagement")}
             className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
@@ -118,7 +93,7 @@ export default function UserDetails() {
         </div>
 
         <h1 className="text-xl mb-4 bg-emerald-300 py-2 px-4 rounded-lg">
-          Student Details
+        Staff Details
         </h1>
         <div className="flex border border-gray-400 rounded-xl p-4">
           <div className="w-3/4">
@@ -136,59 +111,111 @@ export default function UserDetails() {
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Class -
+                    Role -
                   </label>
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.class_id == 1 ? "Kinder Gardern" : userDetail?.class_id == 2
-                          ? "L.K.G"
-                          : userDetail?.class_id == 3
-                          ? "U.K.G"
-                          : userDetail?.class_id == 4
-                          ? "I"
-                          : userDetail?.class_id == 5
-                          ? "II"
-                          : userDetail?.class_id == 6
-                          ? "III"
-                          : userDetail?.class_id == 7
-                          ? "IV"
-                          : userDetail?.class_id == 8
-                          ? "V"
-                          : userDetail?.class_id == 9
-                          ? "VI"
-                          : userDetail?.class_id == 10
-                          ? "VII"
-                          : userDetail?.class_id == 11
-                          ? "VIII"
-                          : userDetail?.class_id == 12
-                          ? "IX"
-                          : userDetail?.class_id == 13
-                          ? "X"
-                          : userDetail?.class_id == 14
-                          ? "XI"
-                          : userDetail?.class_id == 15
-                          ? "XII"
+                    {userDetail?.role == 1 ?  "Admin"
+                          : userDetail?.role == 2
+                          ? "Sub Admin"
+                          : userDetail?.role == 3
+                          ? "Teacher"
+                          : userDetail?.role == 4
+                          ? "Transport"
+                          : userDetail?.role == 5
+                          ? "Cleaner"
+                          : userDetail?.role == 6
+                          ? "Gate Keeper"
                           : ""} 
                   </span>
                 </div>
               </div>
-
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Email-
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.email}</span>
+                </div>
+              </div>
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Phone Number -
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.phone_number}</span>
+                </div>
+              </div>
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Address-
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.address}</span>
+                </div>
+              </div>
+           
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Salary
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.salary}</span>
+                </div>
+              </div>
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Years of Experience
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.YOE}</span>
+                </div>
+              </div>
 
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Section -
+                    Subject Speciality
                   </label>
                 </div>
                 <div className="w-2/4">
-                  <span>
-                    {userDetail?.sec != ""
-                      ? userDetail?.sec
-                      : "-"}
-                  </span>
+                  <span>{userDetail?.subject_speciality}</span>
                 </div>
               </div>
+
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Latest Qualification
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.last_qualification}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Previous Organization-
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.previous_organization}</span>
+                </div>
+              </div>
+
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -207,73 +234,7 @@ export default function UserDetails() {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Date of Birth -
-                  </label>
-                </div>
-                <div className="w-2/4">
-                  <span>
-                    {userDetail?.date_of_birth != null
-                      ? moment(userDetail.date_of_birth).format("DD-MM-YYYY")
-                      : "-"}
-                  </span>
-                </div>
-              </div>
 
-              <div className="flex items-center py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Phone Number
-                  </label>
-                </div>
-                <div className="w-2/4">
-                  <span>
-                    {userDetail?.phone_number ? userDetail?.phone_number : "-"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Address
-                  </label>
-                </div>
-                <div className="w-2/4">
-                  <span>
-                    {userDetail?.address ? userDetail?.address : "-"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Emergency Contact Number
-                  </label>
-                </div>
-                <div className="w-2/4">
-                  <span>
-                    {userDetail?.emergency_contact_number ? userDetail?.emergency_contact_number: "-"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Allergy
-                  </label>
-                </div>
-                <div className="w-2/4">
-                  <span>
-                    {userDetail?.allergy ? userDetail?.allergy : "-"}
-                  </span>
-                </div>
-              </div>
-            
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -305,7 +266,7 @@ export default function UserDetails() {
               className="w-full"
               src={
                 userDetail?.profile_photo != ""
-                  ? userDetail?.profile_pic
+                  ? userDetail?.profile_photo
                   : dummyUser
               }
             />
@@ -313,45 +274,7 @@ export default function UserDetails() {
         </div>
 
         <br />
-        <h1 className="text-xl mb-4 bg-emerald-300 py-2 px-4 rounded-lg">
-          Student Fees Details - {totalActions} Amonut
-        </h1>
-        <div class="flex-auto">
-          <Table
-            headerData={field}
-            scopedSlots={
-              engagementsDetails &&
-              engagementsDetails.map((item, index) => {
-                return (
-                  <tr key={item.id}>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.CategoryName}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.regularFees}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.examFees}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.lateFees}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.admissionAndDressFees}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.instalmentFees}
-                    </td>
-                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      {item.TransportFees}
-                    </td>
-                  </tr>
-                );
-              })
-            }
-          />
-        </div>
-        <br />
+       
       </div>
     </>
   );

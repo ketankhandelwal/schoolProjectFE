@@ -4,23 +4,21 @@ import blockIcon from "../../assets/Icons/block.svg";
 import viewIcon from "../../assets/Icons/viewIcon.svg";
 import moment from "moment";
 import Table from "../../Components/Table/Table";
-import UserDetails from "./UserDetails/UserDetails";
+import StaffDetails from "./StaffDetails/StaffDetails";
 import Modal from "../../Components/Modal/Modal";
 import { useLocation, useNavigate } from "react-router";
 import { Get, Post } from "../../Constants/apiMethods";
 import iconAdd from "../../assets/Icons/add.svg";
 import { Link } from "react-router-dom";
-import idCard from '../../assets/Icons/idCard.svg'
 
-import idcard from "../../assets/Icons/idcard.svg"
 import {
   changeStatus,
-  getUserList,
+  getStaffList,
   makeCorporateUser,
   sendEmailApi,
-  addUser,
-  addFees,
-  deleteStudent,
+  addStaff,
+  addLeaves,
+  deleteStaff,
 } from "../../Constants/apiRoutes";
 import LoadingSpinner from "../../Components/Loader/index";
 import Switch from "react-switch";
@@ -32,26 +30,15 @@ import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-export default function UserManagement() {
+export default function StaffManagement() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [feesModal, setFeesModal] = useState(false);
-  const [uts, updateTopicStress] = useState({
-    categoryName: "",
-    subCategoryName: "",
-    editStressTopic: false,
-    topicTitle: "",
-    topicDetail: "",
-    categoryId: 0,
-    topicId: 0,
-    topic_type: false,
-  });
 
   const navigate = useNavigate();
   const location = useLocation();
   const [showModal, setShowModal] = useState(false);
   const [statusModal, setStatusModal] = useState(false);
-  const [userList, setUsers] = useState([]);
+  const [staffList, setStaff] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [pageCount, setPageCount] = useState();
@@ -61,12 +48,10 @@ export default function UserManagement() {
   const [searchValue, setSearchValue] = useState();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
-  const [classValue, setClassValue] = useState(null);
-  const [indexValue, setIndex] = useState();
-  const [typeModal, setTypeModal] = useState(false);
-  const [emailModal, setEmailModal] = useState(false);
+  const [roleValue, setRoleValue] = useState(null);
+
   const [sendMail, setSendMail] = useState(false);
-  const [userDetail, setUserDetail] = useState(false);
+  const [staffDetail, setStaffDetail] = useState(false);
   const [changeCorporate, setChangeCorporate] = useState(false);
   const [clickCount, setclickCount] = useState(0);
   const [sortOrder, setSortOrder] = useState("");
@@ -98,11 +83,11 @@ export default function UserManagement() {
       setType("corporate");
       location.state = "corporate";
     }
-    getUsers(type);
+    getStaff(type);
   }, [
     currentPage,
     type,
-    classValue,
+    roleValue,
     startDate,
     endDate,
     searchValue,
@@ -126,28 +111,28 @@ export default function UserManagement() {
     let tempUser;
     const { name, checked } = e.target;
     if (name == "All") {
-      tempUser = userList.map((user) => {
+      tempUser = staffList.map((user) => {
         return {
           ...user,
           isChecked: checked,
         };
       });
     } else {
-      tempUser = userList.map((user) =>
+      tempUser = staffList.map((user) =>
         user.email == name ? { ...user, isChecked: checked } : user
       );
     }
-    setUsers(tempUser);
+    setStaff(tempUser);
   };
 
   const field = sendMail
     ? [
         "#",
         "Name",
-        "Class",
-        "Section",
-        "D.O.B.",
+        "Email",
         "Phone Number",
+        "Role",
+        "YOE",
         "Gender",
         "Status",
         "Joined On",
@@ -156,10 +141,10 @@ export default function UserManagement() {
     : [
         "#",
         "Name",
-        "Class",
-        "Section",
-        "D.O.B.",
+        "Email",
         "Phone Number",
+        "Role",
+        "YOE",
         "Gender",
         "Status",
         "Joined On",
@@ -178,16 +163,17 @@ export default function UserManagement() {
     setEndDate(end);
   };
 
-  const filterClass = (classes) => {
-    setClassValue(classes);
+  const filterRole = (role) => {
+    setRoleValue(role);
   };
 
-  const getUsers = (type) => {
-    
+  const getStaff = (type) => {
     setLoading(true);
     let payload = `?type=${type}&page=${currentPage}&count=${pageSize}`;
-    if (classValue && classValue != 0) {
-      payload = payload + `&classes=${classValue}`;
+    if (roleValue && roleValue != 0) {
+      console.log(roleValue);
+      payload = payload + `&role=${roleValue}`;
+      console.log(payload);
     }
     if (startDate) {
       payload = payload + `&start_date=${startDate}`;
@@ -201,7 +187,7 @@ export default function UserManagement() {
 
     if (sortOrder) payload += `&order_by=${sortOrder}`;
 
-    Get(getUserList, token, payload)
+    Get(getStaffList, token, payload)
       .then((response) => response)
       .then((data) => {
         setLoading(false);
@@ -212,7 +198,7 @@ export default function UserManagement() {
             isChecked: false,
           };
         });
-        setUsers(userData);
+        setStaff(userData);
         setPageCount(Math.ceil(data.data.count / pageSize));
         setTotalCount(Math.ceil(data.data.count));
         setCount(Math.ceil(data.data.data?.length));
@@ -228,59 +214,31 @@ export default function UserManagement() {
     setSearchValue(data);
   };
 
-  const sendEmail = () => {
-    let count = clickCount;
-    setclickCount(++count);
-    setSendMail(true);
-    if (clickCount > 0 && sendMail) {
-      setEmailModal(true);
-    }
-  };
-
-  const cancelMail = () => {
-    let tempUser = userList.map((user) => {
-      return {
-        ...user,
-        isChecked: false,
-      };
-    });
-    setUsers(tempUser);
-    setclickCount(0);
-    setSendMail(false);
-    setEmailModal(false);
-    setEditorState(() => EditorState.createEmpty());
-    setSubjectValue("");
-    setConvertedContent("");
-  };
-
-
   const handleStatus = (id) => {
-    const detail = userList.filter((el) => el.id == id);
-    setUserDetail(detail[0]);
+    const detail = staffList.filter((el) => el.id == id);
+    setStaffDetail(detail[0]);
     setStatusModal(true);
   };
 
   const submitStatus = () => {
-
     let request = {
-      id: userDetail.id,
+      id: staffDetail.id,
       status: 3,
     };
-  
-    Post(deleteStudent, token, request)
+    Post(deleteStaff, token, request)
       .then((res) => {
         setLoading(false);
 
-        navigate("/userManagement");
-        toast.success("Student has been deleted successfully");
+        navigate("/staffManagement");
+        toast.success("Staff Deleted  successfully");
       })
       .catch((error) => {
         setLoading(false);
         toast.error(error.message);
       });
     setStatusModal(false);
-    setUserDetail({});
-    getUsers(type);
+    setStaffDetail({});
+    getStaff(type);
   };
 
   const getPageIndex = (index) => {
@@ -292,13 +250,13 @@ export default function UserManagement() {
       {loading && <LoadingSpinner />}
 
       <div className="mx-6 mt-2 mb-8">
-        <h1 className="text-2xl">Student Management</h1>
+        <h1 className="text-2xl">Staff Management</h1>
       </div>
       <div className="mx-6 mt-5 border-solid border-2 border-black-100 p-4 relative">
         <div className="flex mt-6">
           <div className="flex w-2/4 items-center">
             <input
-              placeholder="Search by Student Name"
+              placeholder="Search by Staff Name"
               type="text"
               onChange={(event) => search(event.target.value)}
               value={searchValue}
@@ -309,12 +267,10 @@ export default function UserManagement() {
             <button
               className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              onClick={() => navigate("addUser")}
+              onClick={() => navigate("addStaff")}
             >
-              Add Student
+              Add Staff
             </button>
-
-        
           </div>
         </div>
 
@@ -325,30 +281,7 @@ export default function UserManagement() {
             </div>
           </div>
 
-          <div className="w-2/3">
-            {/* <div className="text-right mt-4">
-              {" "}
-              {type == "corporate" ? (
-                <div className="">
-                  <button
-                    className="mr-2 rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    onClick={() => navigate("addUser")}
-                  >
-                    Add User
-                  </button>
-                  <button
-                    onClick={() => navigate("/userManagement/addBulkUser")}
-                    className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="button"
-                  >
-                    Bulk Import
-                  </button>
-                </div>
-              ) : (
-                ""
-              )}
-            </div> */}
-          </div>
+          <div className="w-2/3"></div>
         </div>
         <div className="flex flex-row justify-between mt-6">
           <div className="flex w-1/4 items-center mb-6">
@@ -384,73 +317,21 @@ export default function UserManagement() {
           <div className="w-1/4 mr-2">
             <select
               className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={classValue}
-              onChange={(e) => filterClass(e.target.value)}
+              value={roleValue}
+              onChange={(e) => filterRole(e.target.value)}
+             
             >
-              <option value={0}>Class</option>
-              <option value={1}>Kinder Garden</option>
-              <option value={2}>L.K.G</option>
-              <option value={3}>U.K.G</option>
-              <option value={4}>I</option>
-              <option value={5}>II</option>
-              <option value={6}>III</option>
-              <option value={7}>IV</option>
-              <option value={8}>V</option>
-              <option value={9}>VI</option>
-              <option value={10}>VII</option>
-              <option value={11}>VIII</option>
-              <option value={12}>IX</option>
-              <option value={13}>X</option>
-              <option value={14}>XI</option>
-              <option value={15}>XII</option>
+              <option value={0}>Role</option>
+              <option value={1}>Admin</option>
+              <option value={2}>Sub Admin</option>
+              <option value={3}>Teacher</option>
+              <option value={4}>Transport</option>
+              <option value={5}>Gate Keeper</option>
+              <option value={6}>Other</option>
             </select>
           </div>
-
-          {/* {type == "corporate" ? (
-            <div className="w-1/4 mr-2">
-              <select
-                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                onChange={(e) => filterCompany(e.target.value)}
-              >
-                <option value={0} selected>
-                  Select Company
-                </option>
-                {companyList &&
-                  companyList?.map((team) => (
-                    <option key={team.id} value={team.id}>
-                      {team.name}
-                    </option>
-                  ))}
-              </select>
-            </div>
-          ) : (
-            <div className="w-1/3"></div>
-          )} */}
         </div>
         <div className="flex">
-          {/* <div className="flex">
-            <ul>
-              <li className="px-2 bg-blueGray-50 text-blueGray-500 align-middle  py-3 border-l-0 border-r-0 whitespace-nowrap font-semibold text-center rounded-l-xl rounded-r-xl">
-                <input
-                  className="mr-2"
-                  type="checkbox"
-                />
-                <span>All</span>
-              </li>
-              {userList && userList.map(item => {
-                return (
-                  <li className=" fixedHeight border-t-0 px-2 align-middle border-l-0 border-r-0  py-4 text-center">
-                    <input
-                      className="h-1/1"
-                      type="checkbox"
-                    />
-                  </li>
-                )
-
-              })
-              }
-            </ul>
-          </div> */}
           <div className="flex-auto">
             <Table
               pageCount={pageCount}
@@ -462,85 +343,60 @@ export default function UserManagement() {
               sortBy="Name"
               handleSortOrder={handleSortOrder}
               scopedSlots={
-                userList &&
-                userList.map((item, index) => {
+                staffList &&
+                staffList.map((item, index) => {
                   return (
                     <tr key={item.id}>
-                      {/* {sendMail ? (
-                        <td className=" fixedHeight border-t-0 px-2 align-middle border-l-0 border-r-0  py-4 text-center">
-                          <input
-                            checked={item.isChecked}
-                            className="h-1/1"
-                            type="checkbox"
-                            name={item.email}
-                            onChange={handleChecked}
-                          />
-                        </td>
-                      ) : (
-                        ""
-                      )} */}
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {getPageIndex(index + 1)}
                       </td>
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      
-                      <Link
-                      to={{
-                        
-                        pathname: "userDetails",
-                        search: `id=${item.id}`,
-                      }}
-                      className="text-sky-500 underline"
-                    >
-                      {item.name}
-                    </Link>
+                        <Link
+                          to={{
+                            pathname: "staffDetails",
+                            search: `id=${item.id}`,
+                          }}
+                          className="text-sky-500 underline"
+                        >
+                          {item.name}
+                        </Link>
                       </td>
 
-                      <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                        {item.class_id == 1
-                          ? "Kinder Garden"
-                          : item.class_id == 2
-                          ? "L.K.G"
-                          : item.class_id == 3
-                          ? "U.K.G"
-                          : item.class_id == 4
-                          ? "I"
-                          : item.class_id == 5
-                          ? "II"
-                          : item.class_id == 6
-                          ? "III"
-                          : item.class_id == 7
-                          ? "IV"
-                          : item.class_id == 8
-                          ? "V"
-                          : item.class_id == 9
-                          ? "VI"
-                          : item.class_id == 10
-                          ? "VII"
-                          : item.class_id == 11
-                          ? "VIII"
-                          : item.class_id == 12
-                          ? "IX"
-                          : item.class_id == 13
-                          ? "X"
-                          : item.class_id == 14
-                          ? "XI"
-                          : item.class_id == 15
-                          ? "XII"
-                          : ""}
-                      </td>
+                    
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
-                        {item.sec}
+                        {item.email}
                       </td>
-                      <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {/* <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.date_of_birth != null
                           ? moment(item.date_of_birth).format("DD-MM-YYYY")
                           : "-"}
-                      </td>
+                      </td> */}
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.phone_number}
                       </td>
+                   
+
+                      <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                        {item.role == 1
+                          ? "Admin"
+                          : item.role == 2
+                          ? "Sub Admin"
+                          : item.role == 3
+                          ? "Teacher"
+                          : item.role == 4
+                          ? "Transport"
+                          : item.role == 5
+                          ? "Cleaner"
+                          : item.role == 6
+                          ? "Gate Keeper" : item.role == 7 ? "Other" : ""
+                          }
+                      </td>
+                      <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                        {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
+                        {item.YOE} Years
+                      </td>
+
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.gender == 1
                           ? "Male"
@@ -559,30 +415,25 @@ export default function UserManagement() {
                           ? moment(item.created_at).format("DD-MM-YYYY")
                           : "-"}
                       </td>
+
+
                       <td className="flex flex-auto mt-3 ml-6">
-                        <img   title="Generate ID Card"
-                          className="mr-2 w-1/6 w-8"
-                          src={idCard}
-                          onClick={() =>
-                            navigate("feeDetails")
-                          }
-                        />
-                        <img title="Delete Student"
+                        <img
+                          title="Delete Staff"
                           className="mr-2 w-1/6 w-7"
                           onClick={() => handleStatus(item.id)}
                           src={blockIcon}
                         />
-                      
 
-                        <img title="Add Fees"
+                        <img
+                          title="Add Fees"
                           className="mr-2 w-1/6 w-7"
-                          onClick={() =>{
-              
-                            navigate("addFees", {
-                            state: item.id
-                            })}
-                            
-                          }
+                          onClick={() => {
+                            console.log(item);
+                            navigate("addLeaves", {
+                              state: item.id,
+                            });
+                          }}
                           src={iconAdd}
                         />
                       </td>
@@ -597,7 +448,7 @@ export default function UserManagement() {
       </div>
       {showModal && (
         <Modal show={showModal} hide={() => setShowModal(false)}>
-          <UserDetails />
+          <StaffDetails />
         </Modal>
       )}
 
@@ -605,7 +456,7 @@ export default function UserManagement() {
         <Modal tittle="Are you  sure ?" hide={() => setStatusModal(false)}>
           <div className="flex items-center justify-between">
             <p>
-              You want delete this student?
+              You want to delete this staff
             </p>
           </div>
           <div className="flex items-center justify-between">

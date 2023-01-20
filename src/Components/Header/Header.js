@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logo from '../../assets/Icons/ComfortZones.svg';
 import dropDownArrow from '../../assets/Icons/dropDownArrow.svg';
 import { useDispatch } from 'react-redux';
 import Modal from '../../Components/Modal/Modal';
@@ -8,6 +7,7 @@ import { toast } from 'react-toastify';
 import { FaBars } from 'react-icons/fa'
 
 import Navbar from '../SideBar/Navbar';
+import schoolName from '../../assets/Icons/schoolNameBg.png'
 
 
 export default function Header(props) {
@@ -34,7 +34,8 @@ export default function Header(props) {
                 {/* <div className='mr-4'> <Hamburger toggled={!sideBar} toggle={showSideBar} size={30} duration={0.5}/></div> */}
                     <div className='mr-4 ml-3 mt-2 cursor-pointer'><FaBars size={30} onClick ={showSideBar} /></div>:
                     {/* <div className='mr-4'><AiOutlineClose size={30} onClick ={showSideBar} /></div> */}
-                    <img src={logo} />
+                    <h1>SCHOOL NAME</h1>
+                    {/* <img src={schoolName} /> */}
                 </div>
                 <div>
                 </div>
