@@ -110,7 +110,6 @@ export default function EditUser(props) {
         setLoading(false);
         let userData = userDetail;
         userData.profile_photo = res.data.key;
-        console.log(res.data.key, userData);
         setUser(userData);
         setPicKey(res.data.key);
         setUpdatePic(true);
@@ -208,7 +207,7 @@ export default function EditUser(props) {
                       required: true,
                      
                     })}
-                    defaultValue={userDetail?.email}
+                    defaultValue={userDetail?.age}
                     placeholder="Student Age"
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
