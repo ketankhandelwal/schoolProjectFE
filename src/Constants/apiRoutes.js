@@ -15,6 +15,7 @@ export const deleteStudent= "student/deleteStudent";
 export const addFees = "student/saveStudentFee";
 export const studentTotalFeesDetails = "student/getStudentFeesDetails"
 export const updateUserDetails = "student/updateStudent";
+ 
 
 
 
@@ -26,6 +27,7 @@ export const deleteStaff = "staff/deleteStaff";
 export const staffLeavesDetails = "staff/getStaffLeavesDetails";
 export  const updateStaffDetails = "staff/updateStaff";
 export const addLeaves = "staff/saveStaffLeaves"
+
 
 
 

@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { FaBars } from 'react-icons/fa'
 
 import Navbar from '../SideBar/Navbar';
-import schoolName from '../../assets/Icons/schoolNameBg.png'
+import schoolName from '../../assets/Icons/simpleSchoolName.png'
 
 
 export default function Header(props) {
@@ -34,8 +34,7 @@ export default function Header(props) {
                 {/* <div className='mr-4'> <Hamburger toggled={!sideBar} toggle={showSideBar} size={30} duration={0.5}/></div> */}
                     <div className='mr-4 ml-3 mt-2 cursor-pointer'><FaBars size={30} onClick ={showSideBar} /></div>:
                     {/* <div className='mr-4'><AiOutlineClose size={30} onClick ={showSideBar} /></div> */}
-                    <h1>SCHOOL NAME</h1>
-                    {/* <img src={schoolName} /> */}
+                    <img  src={schoolName} />
                 </div>
                 <div>
                 </div>

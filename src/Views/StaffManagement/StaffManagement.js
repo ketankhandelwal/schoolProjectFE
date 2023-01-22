@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router";
 import { Get, Post } from "../../Constants/apiMethods";
 import iconAdd from "../../assets/Icons/add.svg";
 import { Link } from "react-router-dom";
+import { staffLeavesDetails } from "../../Constants/apiRoutes";
 
 import {
   changeStatus,
@@ -29,6 +30,7 @@ import { useDispatch } from "react-redux";
 import { EditorState, convertToRaw } from "draft-js";
 import draftToHtml from "draftjs-to-html";
 import "../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import AddModal from "../../Components/AddModal/AddModal";
 
 export default function StaffManagement() {
   const dispatch = useDispatch();
@@ -49,6 +51,10 @@ export default function StaffManagement() {
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
   const [roleValue, setRoleValue] = useState(null);
+  const [leaveModal, setLeaveModal] = useState(false);
+  const [leaveId, setLeaveId] = useState(0);
+  const [leaveDetailsModal, setLeaveDetailsModal] = useState(false);
+  const [staffLeave, setStaffLeave] = useState([]);
 
   const [sendMail, setSendMail] = useState(false);
   const [staffDetail, setStaffDetail] = useState(false);
@@ -59,6 +65,7 @@ export default function StaffManagement() {
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
+
   const [subject, setSubjectValue] = useState("");
   useEffect(() => {
     convertContentToHTML();
@@ -150,7 +157,18 @@ export default function StaffManagement() {
         "Joined On",
         "Action",
       ];
+
+  const field2 = [
+    "#",
+    "Leave Type",
+    "From",
+    "To",
+    "Total Count",
+    "Delete Leave",
+  ];
   const {
+    register,
+    handleSubmit,
     formState: { errors },
   } = useForm();
 
@@ -214,6 +232,11 @@ export default function StaffManagement() {
     setSearchValue(data);
   };
 
+  const showLeaves = (id) => {
+    setLeaveModal(true);
+    setLeaveId(id);
+  };
+
   const handleStatus = (id) => {
     const detail = staffList.filter((el) => el.id == id);
     setStaffDetail(detail[0]);
@@ -239,6 +262,37 @@ export default function StaffManagement() {
     setStatusModal(false);
     setStaffDetail({});
     getStaff(type);
+  };
+
+  const submitLeave = (data) => {
+    let payload = `?id=${leaveId}`;
+    console.log(payload);
+    if (data.month && Number(data.month) != 0) {
+      console.log(data.month);
+      payload = payload + `&month=${data.month}`;
+    }
+
+    if (data.year && Number(data.year) != 0) {
+      payload = payload + `&year=${data.year}`;
+    }
+
+    if (data.leave_type && Number(data.leave_type)) {
+      payload = payload + `&leave_type=${data.leave_type}`;
+    }
+
+    Get(staffLeavesDetails, token, payload)
+      .then((response) => response)
+      .then((data) => {
+        setLoading(false);
+        const userData = data.data.map((value) => {
+          return {
+            ...value,
+          };
+        });
+        setStaffLeave(userData);
+        setLeaveModal(false);
+        setLeaveDetailsModal(true);
+      });
   };
 
   const getPageIndex = (index) => {
@@ -319,11 +373,8 @@ export default function StaffManagement() {
               className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               value={roleValue}
               onChange={(e) => filterRole(e.target.value)}
-             
             >
               <option value={0}>Role</option>
-              <option value={1}>Admin</option>
-              <option value={2}>Sub Admin</option>
               <option value={3}>Teacher</option>
               <option value={4}>Transport</option>
               <option value={5}>Gate Keeper</option>
@@ -362,7 +413,6 @@ export default function StaffManagement() {
                         </Link>
                       </td>
 
-                    
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
                         {item.email}
@@ -375,7 +425,6 @@ export default function StaffManagement() {
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.phone_number}
                       </td>
-                   
 
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.role == 1
@@ -389,8 +438,10 @@ export default function StaffManagement() {
                           : item.role == 5
                           ? "Cleaner"
                           : item.role == 6
-                          ? "Gate Keeper" : item.role == 7 ? "Other" : ""
-                          }
+                          ? "Gate Keeper"
+                          : item.role == 7
+                          ? "Other"
+                          : ""}
                       </td>
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
@@ -416,8 +467,14 @@ export default function StaffManagement() {
                           : "-"}
                       </td>
 
-
                       <td className="flex flex-auto mt-3 ml-6">
+                        <img
+                          title="View Leaves"
+                          className="mr-2 w-1/6 w-7"
+                          onClick={() => showLeaves(item.id)}
+                          src={viewIcon}
+                        />
+
                         <img
                           title="Delete Staff"
                           className="mr-2 w-1/6 w-7"
@@ -452,12 +509,87 @@ export default function StaffManagement() {
         </Modal>
       )}
 
+      {leaveModal && (
+        <Modal tittle="Staff Leaves" hide={() => setLeaveModal(false)}>
+          <form onSubmit={handleSubmit(submitLeave)}>
+            <div className="flex items-center justify-between">
+              <select
+                {...register("month", {
+                  required: false,
+                })}
+                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value={0} selected>
+                  All Month
+                </option>
+                <option value={1}>January</option>
+                <option value={2}>Feb</option>
+                <option value={3}>March</option>
+                <option value={4}>April</option>
+                <option value={5}>May</option>
+                <option value={6}>June</option>
+                <option value={7}>July</option>
+                <option value={8}>August</option>
+                <option value={9}>September</option>
+                <option value={10}>October</option>
+                <option value={11}>Novermber</option>
+                <option value={12}>December</option>
+              </select>
+
+              <select
+                {...register("year", {
+                  required: false,
+                })}
+                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value={0} selected>
+                  All Year
+                </option>
+                <option value={2023}>2023</option>
+                <option value={2024}>2024</option>
+              </select>
+
+              <select
+                {...register("leave_type", {
+                  required: false,
+                })}
+                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value={0} selected>
+                  All Leave Type
+                </option>
+                <option value={1}>Planned Leave</option>
+                <option value={2}>Casual Leave</option>
+                <option value={3}>UnInformed Leave</option>
+                <option value={4}>Half Day</option>
+              </select>
+            </div>
+            <div className="flex items-center justify-center">
+              <button
+                className="mt-3 rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="submit"
+              >
+                Show
+              </button>
+
+              <button
+                onClick={() => {
+                  setLeaveModal(false);
+                }}
+                className="bg-bodyColor hover:shadow-customShadow text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-3 mt-3"
+                type="button"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </Modal>
+      )}
+
       {statusModal && (
         <Modal tittle="Are you  sure ?" hide={() => setStatusModal(false)}>
           <div className="flex items-center justify-between">
-            <p>
-              You want to delete this staff
-            </p>
+            <p>You want to delete this staff</p>
           </div>
           <div className="flex items-center justify-between">
             <button
@@ -477,6 +609,68 @@ export default function StaffManagement() {
               Yes
             </button>
           </div>
+        </Modal>
+      )}
+
+      {leaveDetailsModal && (
+        <Modal tittle="Leave Details" hide={() => setStatusModal(false)}>
+          <Table
+            headerData={field2}
+            scopedSlots={
+              staffLeave &&
+              staffLeave.map((item, index) => {
+                return (
+                  <tr key={item.id}>
+                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {getPageIndex(index + 1)}
+                    </td>
+
+                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {item.leave_type == 1
+                        ? "Planned Leave"
+                        : item.leave_type == 2
+                        ? "Casual Leave"
+                        : item.leave_type == 3
+                        ? "Un-Informed"
+                        : item.leave_type == 4
+                        ? "Half Day Leave"
+                        : ""}
+                    </td>
+
+                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {moment(item.leave_from).format("DD-MM-YYYY")}
+                    </td>
+
+                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {moment(item.leave_to).format("DD-MM-YYYY")}
+                    </td>
+
+                    <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
+                      {item.leave_count}
+                    </td>
+
+                    <td className="flex flex-auto mt-3 ml-6">
+                      <img
+                        title="Delete Leave"
+                        className="mr-2 w-1/6 w-7"
+                        onClick={() => handleStatus(item.id)}
+                        src={blockIcon}
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            }
+          />
+          <button
+            onClick={() => {
+              setLeaveDetailsModal(false);
+            }}
+            className="bg-bodyColor hover:shadow-customShadow text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button"
+          >
+            Close
+          </button>
         </Modal>
       )}
       {/* 

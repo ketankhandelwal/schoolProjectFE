@@ -163,8 +163,6 @@ export default function AddStaff(props) {
                 className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
                <option value={0}>Role</option>
-                    <option value={1}>Admin</option>
-                    <option value={2}>Sub Admin</option>
                     <option value={3}>Teacher</option>
                     <option value={4}>Transport</option>
                     <option value={5}>Cleaner</option>

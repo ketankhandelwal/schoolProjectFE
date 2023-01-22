@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 const baseURL = "http://localhost:3005/";
 
 export const Get = (Url, token, data) => {
+  console.log(Url,data);
 
   return new Promise(async (resolve, reject) => {
     try {
