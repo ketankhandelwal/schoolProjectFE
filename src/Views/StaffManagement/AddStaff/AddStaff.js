@@ -34,10 +34,10 @@ export default function AddStaff(props) {
     data.previous_organization = String(data.previous_organization);
     data.last_qualification = String(data.last_qualification);
     data.subject_speciality = String(data.subject_speciality);
-    data.YOE = Number(data.YOE)
-
+    data.YOE = Number(data.YOE);
 
     data.gender = Number(data.gender);
+    data.date_of_birth = new Date(data.date_of_birth);
 
     data.profile_photo = document.getElementById("profile_photo").value;
     Post(addStaff, token, data)
@@ -74,7 +74,6 @@ export default function AddStaff(props) {
       });
   };
 
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -86,9 +85,7 @@ export default function AddStaff(props) {
         <div className="flex">
           <div className="w-5/6 text-right mb-4">
             <button
-              onClick={() =>
-                navigate("/staffManagement")
-              }
+              onClick={() => navigate("/staffManagement")}
               className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
@@ -136,7 +133,6 @@ export default function AddStaff(props) {
                 {...register("email", {
                   required: true,
                 })}
-              
                 defaultValue={props.data}
                 placeholder="Email"
                 className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -155,20 +151,18 @@ export default function AddStaff(props) {
               </label>
             </div>
 
-            
             <div className="w-2/3">
               <select
                 {...register("role", { required: true })}
-               
                 className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               >
-               <option value={0}>Role</option>
-                    <option value={3}>Teacher</option>
-                    <option value={4}>Transport</option>
-                    <option value={5}>Cleaner</option>
+                <option value={0}>Role</option>
+                <option value={3}>Teacher</option>
+                <option value={4}>Transport</option>
+                <option value={5}>Cleaner</option>
 
-                    <option value={6}>Gate Keeper</option>
-                    <option value={7}>Other</option>
+                <option value={6}>Gate Keeper</option>
+                <option value={7}>Other</option>
               </select>
               {errors.role && (
                 <p className="text-red-500 text-xs italic">Role is required</p>
@@ -183,15 +177,15 @@ export default function AddStaff(props) {
               </label>
             </div>
             <div className="w-2/3">
-            <input
-                    {...register("address", {
-                      required: true,
-                    })}
-                    placeholder="Address"
-                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="text"
-                  />
-           
+              <input
+                {...register("address", {
+                  required: true,
+                })}
+                placeholder="Address"
+                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+              />
+
               {errors.address && (
                 <p className="text-red-500 text-xs italic">
                   Address is required
@@ -226,6 +220,27 @@ export default function AddStaff(props) {
           </div>
 
 
+          <div className="flex items-center  py-3">
+            <div className="w-1/3">
+              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                Date of Birth -
+              </label>
+            </div>
+            <div className="w-2/3">
+              <input
+                {...register("date_of_birth", { required: true })}
+                placeholder="D.O.B."
+                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="date"
+                max={moment().format("YYYY-MM-DD")}
+              />
+              {errors.date_of_birth && (
+                <p className="text-red-500 text-xs italic">
+                  D.O.B. is required
+                </p>
+              )}
+            </div>
+          </div>
 
           <div className="flex items-center  py-3">
             <div className="w-1/3">
@@ -245,9 +260,7 @@ export default function AddStaff(props) {
                 type="text"
               />
               {errors.YOE?.type == "required" && (
-                <p className="text-red-500 text-xs italic">
-                  YOE is required
-                </p>
+                <p className="text-red-500 text-xs italic">YOE is required</p>
               )}
             </div>
           </div>
@@ -320,7 +333,7 @@ export default function AddStaff(props) {
           <div className="flex items-center  py-3">
             <div className="w-1/3">
               <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-               Latest Qualification -
+                Latest Qualification -
               </label>
             </div>
             <div className="w-2/3">
@@ -360,7 +373,7 @@ export default function AddStaff(props) {
               )}
             </div>
           </div>
-       
+
           <div className="flex items-center  py-3">
             <div className="w-1/3">
               <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -384,7 +397,6 @@ export default function AddStaff(props) {
             id="profile_photo"
           />
 
-         
           <div className="flex items-center py-3">
             <div className="w-1/3">
               <label className="block text-xl text-left mb-1 md:mb-0 pr-4">

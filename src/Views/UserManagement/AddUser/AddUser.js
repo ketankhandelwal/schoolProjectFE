@@ -41,7 +41,7 @@ export default function AddUser(props) {
   const onSubmit = (data) => {
     setLoading(true);
     data.class_id =Number(data.class_id);
-    data.age = Number(data.age);
+   
     data.gender = String(data.gender);
     data.date_of_birth = new Date(data.date_of_birth);
 
@@ -131,28 +131,8 @@ export default function AddUser(props) {
               )}
             </div>
           </div>
-          <div className="flex items-center  py-3">
-            <div className="w-1/3">
-              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                Age -
-              </label>
-            </div>
-            <div className="w-2/3">
-              <input
-                {...register("age", {
-                  required: true,
-                })}
-              
-                defaultValue={props.data}
-                placeholder="Age"
-                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="text"
-              />
-              {errors.age?.type == "required" && (
-                <p className="text-red-500 text-xs italic">Age is required</p>
-              )}
-            </div>
-          </div>
+         
+      
 
           <div className="flex items-center  py-3">
             <div className="w-1/3">
@@ -273,6 +253,46 @@ export default function AddUser(props) {
                   Address is required
                 </p>
               )}
+            </div>
+          </div>
+
+          <div className="flex items-center  py-3">
+            <div className="w-1/3">
+              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                Mother Name
+              </label>
+            </div>
+            <div className="w-2/3">
+              <input
+                {...register("mother_name", {
+                  required: false,
+                })}
+                // defaultValue={props.data && props.data.Age}
+                defaultValue={props.data}
+                placeholder="Mother's Name"
+                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center  py-3">
+            <div className="w-1/3">
+              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                Father Name
+              </label>
+            </div>
+            <div className="w-2/3">
+              <input
+                {...register("father_name", {
+                  required: false,
+                })}
+                // defaultValue={props.data && props.data.Age}
+                defaultValue={props.data}
+                placeholder="Father's Name"
+                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+              />
             </div>
           </div>
 

@@ -21,6 +21,7 @@ import {
   addUser,
   addFees,
   deleteStudent,
+  subAdminPermissionList,
 } from "../../Constants/apiRoutes";
 import LoadingSpinner from "../../Components/Loader/index";
 import Switch from "react-switch";
@@ -99,6 +100,7 @@ export default function UserManagement() {
       location.state = "corporate";
     }
     getUsers(type);
+    fetchPermissionList();
   }, [
     currentPage,
     type,
@@ -173,6 +175,7 @@ export default function UserManagement() {
     const start = data.target.value;
     setStartDate(start);
   };
+
   const onChangeTo = (data) => {
     const end = data.target.value;
     setEndDate(end);
@@ -181,6 +184,20 @@ export default function UserManagement() {
   const filterClass = (classes) => {
     setClassValue(classes);
   };
+
+  const fetchPermissionList = () => {
+    console.log("Here2")
+    Get(subAdminPermissionList, token)
+      .then((response) => response)
+      .then((data) => {
+        console.log(data.data)
+        dispatch({
+          type: "PERMISSION_DATA",
+          payload: data.data,
+        });
+      });
+  };
+
 
   const getUsers = (type) => {
     

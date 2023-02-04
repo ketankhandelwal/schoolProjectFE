@@ -248,6 +248,34 @@ export default function UserDetails() {
                 </div>
               </div>
 
+
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Mother Name
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>
+                    {userDetail?.mother_name ? userDetail?.mother_name: "-"}
+                  </span>
+                </div>
+              </div>
+
+
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Father Name
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>
+                    {userDetail?.father_name? userDetail?.father_name : "-"}
+                  </span>
+                </div>
+              </div>
+
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -256,7 +284,7 @@ export default function UserDetails() {
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.emergency_contact_number ? userDetail?.emergency_contact_number: "-"}
+                    {userDetail?.emergency_phone_number ? userDetail?.emergency_phone_number: "-"}
                   </span>
                 </div>
               </div>

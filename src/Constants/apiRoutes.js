@@ -29,5 +29,16 @@ export  const updateStaffDetails = "staff/updateStaff";
 export const addLeaves = "staff/saveStaffLeaves"
 
 
+//subAdmin
+
+export const createSubAdmin = "admin/createSubAdmin";
+export const updateSubAdmin = "admin/updateSubAdmin";
+export const getSubAdminDetail = "admin/subAdminDetails";
+export const deleteSubAdmin = "admin/deleteSubAdmin"
+export const subAdminListing = "admin/getSubAdminList";
+export const subAdminPermissionList = "subadminpermission/permissionsList";
+
+
+
 
 

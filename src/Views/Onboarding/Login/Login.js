@@ -131,7 +131,7 @@ export default function Login() {
         </form>
         <div className=" flex justify-end items-center max-w-[1140px] w-full py-8 m-auto border-t-4">
         <div className="flex items-center justify-center m-auto w-full">
-          <h1>Developed By- RAJ KUMAR KHANDELWAL</h1>
+          <h1>Developed By- Ketan Khandelwal</h1>
        
         </div>
 

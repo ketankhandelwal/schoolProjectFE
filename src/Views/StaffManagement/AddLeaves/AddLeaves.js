@@ -47,7 +47,7 @@ const AddLeaves = (props) => {
         setLoading(false);
 
         navigate("/staffManagement");
-        toast.success("Student Fees added successfully");
+        toast.success("Staff Leaves added successfully");
       })
       .catch((error) => {
         setLoading(false);
@@ -153,13 +153,19 @@ const AddLeaves = (props) => {
           <div className="w-2/3">
             <button
               type="submit"
-              className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className=" rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
               Save
             </button>
           </div>
+          {/* <div>
+            <h3>Please don't include school holiday while calculating staff leaves</h3>
+          </div> */}
         </div>
       </form>
+      <div className="text-red-600">
+            <h3>Please don't include school holiday while calculating leaves</h3>
+          </div>
     </div>
   );
 };

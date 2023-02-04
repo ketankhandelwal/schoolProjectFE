@@ -163,8 +163,7 @@ export default function StaffManagement() {
     "Leave Type",
     "From",
     "To",
-    "Total Count",
-    "Delete Leave",
+    "Total Count"
   ];
   const {
     register,
@@ -189,9 +188,9 @@ export default function StaffManagement() {
     setLoading(true);
     let payload = `?type=${type}&page=${currentPage}&count=${pageSize}`;
     if (roleValue && roleValue != 0) {
-      console.log(roleValue);
+      
       payload = payload + `&role=${roleValue}`;
-      console.log(payload);
+  
     }
     if (startDate) {
       payload = payload + `&start_date=${startDate}`;
@@ -243,6 +242,8 @@ export default function StaffManagement() {
     setStatusModal(true);
   };
 
+
+
   const submitStatus = () => {
     let request = {
       id: staffDetail.id,
@@ -266,9 +267,9 @@ export default function StaffManagement() {
 
   const submitLeave = (data) => {
     let payload = `?id=${leaveId}`;
-    console.log(payload);
+   
     if (data.month && Number(data.month) != 0) {
-      console.log(data.month);
+     
       payload = payload + `&month=${data.month}`;
     }
 
@@ -486,7 +487,7 @@ export default function StaffManagement() {
                           title="Add Fees"
                           className="mr-2 w-1/6 w-7"
                           onClick={() => {
-                            console.log(item);
+                           
                             navigate("addLeaves", {
                               state: item.id,
                             });
@@ -649,14 +650,14 @@ export default function StaffManagement() {
                       {item.leave_count}
                     </td>
 
-                    <td className="flex flex-auto mt-3 ml-6">
+                    {/* <td className="flex flex-auto mt-3 ml-6">
                       <img
                         title="Delete Leave"
                         className="mr-2 w-1/6 w-7"
-                        onClick={() => handleStatus(item.id)}
+                        onClick={() => handleLeaveStatus(item.id)}
                         src={blockIcon}
                       />
-                    </td>
+                    </td> */}
                   </tr>
                 );
               })

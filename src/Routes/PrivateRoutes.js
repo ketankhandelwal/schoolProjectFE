@@ -12,6 +12,13 @@ import StaffDetails from "../Views/StaffManagement/StaffDetails/StaffDetails";
 import StaffManagement from "../Views/StaffManagement/StaffManagement";
 import LeavesDetails from "../Views/StaffManagement/LeaveDetails/LeaveDetails";
 import AdminProfile from "../Views/AdminProfile/AdminProfile";
+import SubAdminManagement from "../Views/SubAdminManagement/SubAdminManagement";
+import AddSubadmin from "../Views/SubAdminManagement/AddSubAdmin/AddSubAdmin";
+import ViewSubadmin from "../Views/SubAdminManagement/ViewSubAdmin/ViewSubAdmin";
+import EditSubadmin from "../Views/SubAdminManagement/EditSubAdmin/EditSubAdmin";
+
+
+
 
 
 
@@ -91,7 +98,29 @@ export const PrivateRoutes = [
     element: <AdminProfile/>,
     path:"profile",
     headerTittle:"Admin Profile"
-  }
+  },
+
+  {
+    element: <SubAdminManagement />,
+    path: "sd",
+    headerTittle: "Sub-Admin Management",
+  },
+  {
+    element: <AddSubadmin />,
+    path: "sd/addSubAdmin",
+    headerTittle: "Add Sub-Admin",
+  },
+
+  {
+    element: <ViewSubadmin />,
+    path: "/sd/viewSubAdmin",
+    headerTittle: "View Sub-Admin",
+  },
+  {
+    element: <EditSubadmin />,
+    path: "/sd/viewSubAdmin/editSubAdmin",
+    headerTittle: "Edit Sub-Admin",
+  },
 
 
 

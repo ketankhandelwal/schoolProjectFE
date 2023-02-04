@@ -75,7 +75,7 @@ export default function EditUser(props) {
     userData.phone_number = data.phone_number;
     userData.emergency_phone_number = data.emergency_phone_number;
     userData.allergy = data.allergy;
-    userData.age = Number(data.age);
+   
     userData.class_id = Number(data.class_id);
     userData.sec = data.sec;
     userData.address = data.address;
@@ -195,30 +195,7 @@ export default function EditUser(props) {
                   )}
                 </div>
               </div>
-              <div className="flex items-center  py-3">
-                <div className="w-2/4">
-                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Age -
-                  </label>
-                </div>
-                <div className="w-2/3">
-                  <input
-                    {...register("age", {
-                      required: true,
-                     
-                    })}
-                    defaultValue={userDetail?.age}
-                    placeholder="Student Age"
-                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="text"
-                  />
-                  {errors.age?.type == "required" && (
-                    <p className="text-red-500 text-xs italic">
-                      Age is required
-                    </p>
-                  )}
-                </div>
-              </div>
+         
 
               <div className="flex items-center  py-3">
             <div className="w-2/4">
@@ -334,6 +311,8 @@ export default function EditUser(props) {
                   )}
                 </div>
               </div>
+
+           
 
               <div className="flex items-center  py-3">
                 <div className="w-2/4">

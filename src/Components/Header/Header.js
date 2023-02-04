@@ -34,7 +34,7 @@ export default function Header(props) {
                 {/* <div className='mr-4'> <Hamburger toggled={!sideBar} toggle={showSideBar} size={30} duration={0.5}/></div> */}
                     <div className='mr-4 ml-3 mt-2 cursor-pointer'><FaBars size={30} onClick ={showSideBar} /></div>:
                     {/* <div className='mr-4'><AiOutlineClose size={30} onClick ={showSideBar} /></div> */}
-                    <img  src={schoolName} />
+                    {/* <img  src={schoolName} /> */}
                 </div>
                 <div>
                 </div>
