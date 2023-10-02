@@ -16,7 +16,8 @@ import SubAdminManagement from "../Views/SubAdminManagement/SubAdminManagement";
 import AddSubadmin from "../Views/SubAdminManagement/AddSubAdmin/AddSubAdmin";
 import ViewSubadmin from "../Views/SubAdminManagement/ViewSubAdmin/ViewSubAdmin";
 import EditSubadmin from "../Views/SubAdminManagement/EditSubAdmin/EditSubAdmin";
-import SetFees from '../Views/AccountProfile/SetFees'
+import SetFees from '../Views/AccountProfile/SetFees';
+import MyPDFViewer from "../Views/TransferCertifcate/TransferCertificate";
 
 
 
@@ -47,9 +48,9 @@ export const PrivateRoutes = [
     headerTittle: "Add Fees",
   },
   {
-    element: <FeesDetails />,
-    path: "/userManagement/feeDetails",
-    headerTittle: "Fee Details",
+    element: <MyPDFViewer />,
+    path: "/userManagement/transferCertificate",
+    headerTittle: "Transfer Certificate",
   },
    {
     element: <EditUser />,
@@ -126,7 +127,12 @@ export const PrivateRoutes = [
     element: <SetFees />,
     path: "/accountManagement",
     headerTittle: "Account Management",
-  }
+  },
+  {
+    element: <MyPDFViewer/>,
+    path:"transferCertificate",
+    headerTittle:"Transfer Certificate"
+  },
 
 
 

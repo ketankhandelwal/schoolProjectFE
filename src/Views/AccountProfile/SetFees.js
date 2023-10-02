@@ -165,8 +165,6 @@ function SetFees() {
     border: "none",
   };
 
-  
-
   const tileStyle = {
     backgroundColor: "white",
     border: "1px solid #ccc",
@@ -178,18 +176,18 @@ function SetFees() {
     transition: "transform 0.2s",
     margin: "10px",
   };
-  
+
   const tileContainerStyle = {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "10px",
   };
-  
+
   const classNameStyle = {
     textAlign: "center",
     marginBottom: "5px",
   };
-  
+
   const modalStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.6)",
@@ -204,7 +202,7 @@ function SetFees() {
       background: "linear-gradient(135deg, #f5f5f5, #e0e0e0)",
       border: "none",
     },
-  };  
+  };
 
   return (
     <div>
@@ -214,7 +212,7 @@ function SetFees() {
           <div
             key={index}
             style={tileStyle}
-            onClick={() => openModal(index + 1)} // Pass className and index to openModal
+            onClick={() => openModal(index + 1)}
           >
             <div style={classNameStyle}>{className}</div>
           </div>
@@ -279,7 +277,7 @@ function SetFees() {
           </div>
 
           <div>
-          <button style={buttonStyle} onClick={() => handleSubmit()}>
+            <button style={buttonStyle} onClick={() => handleSubmit()}>
               Submit
             </button>
             <button
@@ -288,14 +286,11 @@ function SetFees() {
             >
               Close
             </button>
-            
           </div>
         </div>
       </Modal>
     </div>
   );
 }
-
-
 
 export default SetFees;

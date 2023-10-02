@@ -51,7 +51,7 @@ export default function Navbar(props) {
     }
   ];
   const getStatusPermissionData = (permissionList, permissionStatus) => {
-    console.log("Here");
+
     const finalPermissionArray = [];
     permissionList?.map((item) => {
       const permission = permissionStatus?.filter(

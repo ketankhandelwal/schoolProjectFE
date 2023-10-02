@@ -581,7 +581,7 @@ export default function UserManagement() {
                           className="mr-2 w-1/6 w-8"
                           src={idCard}
                           onClick={() =>
-                            navigate("feeDetails")
+                            navigate("transferCertificate")
                           }
                         />
                         <img title="Delete Student"

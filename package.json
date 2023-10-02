@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@react-pdf/renderer": "^3.1.12",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,6 +11,7 @@
     "draftjs-to-html": "^0.9.1",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.40",
+    "pdfkit": "^0.13.0",
     "puppeteer": "^19.5.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
@@ -19,6 +21,7 @@
     "react-loader-spinner": "^5.3.4",
     "react-modal": "^3.16.1",
     "react-paginate": "^8.1.4",
+    "react-pdf": "^7.4.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2",
     "react-scripts": "5.0.1",
