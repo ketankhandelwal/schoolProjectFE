@@ -15,6 +15,7 @@ export const deleteStudent= "student/deleteStudent";
 export const addFees = "student/saveStudentFee";
 export const studentTotalFeesDetails = "student/getStudentFeesDetails"
 export const updateUserDetails = "student/updateStudent";
+
  
 
 
@@ -37,6 +38,10 @@ export const getSubAdminDetail = "admin/subAdminDetails";
 export const deleteSubAdmin = "admin/deleteSubAdmin"
 export const subAdminListing = "admin/getSubAdminList";
 export const subAdminPermissionList = "subadminpermission/permissionsList";
+
+//accounts
+export const setFeesData = "accounts/setClassFeesByYear"
+export const getFeesData = "accounts/getSetFeesByClass"
 
 
 

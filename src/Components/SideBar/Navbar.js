@@ -8,6 +8,7 @@ import iconCategoryManage from "../../assets/Icons/catergoryManagement.svg";
 import iconNotificationManage from "../../assets/Icons/notification.svg";
 import iconStaticContentManage from "../../assets/Icons/staticContentManagement.svg";
 import iconSubAdminManage from "../../assets/Icons/sub-adminManagement.svg";
+import indianCurrency from "../../assets/Icons/currency.png"
 import helpIcon from "../../assets/Icons/help.svg";
 import appIntroIcon from "../../assets/Icons/appIntro.svg"
 import { NavLink } from "react-router-dom";
@@ -40,6 +41,13 @@ export default function Navbar(props) {
       icon: iconSubAdminManage,
       url: "/sd",
       status: 1,
+    },
+    {
+      id:4,
+      title: "Account Management",
+      icon:indianCurrency,
+      url:"/accountManagement",
+      status:1
     }
   ];
   const getStatusPermissionData = (permissionList, permissionStatus) => {

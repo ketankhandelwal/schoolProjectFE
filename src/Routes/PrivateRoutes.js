@@ -16,6 +16,7 @@ import SubAdminManagement from "../Views/SubAdminManagement/SubAdminManagement";
 import AddSubadmin from "../Views/SubAdminManagement/AddSubAdmin/AddSubAdmin";
 import ViewSubadmin from "../Views/SubAdminManagement/ViewSubAdmin/ViewSubAdmin";
 import EditSubadmin from "../Views/SubAdminManagement/EditSubAdmin/EditSubAdmin";
+import SetFees from '../Views/AccountProfile/SetFees'
 
 
 
@@ -121,6 +122,11 @@ export const PrivateRoutes = [
     path: "/sd/viewSubAdmin/editSubAdmin",
     headerTittle: "Edit Sub-Admin",
   },
+  {
+    element: <SetFees />,
+    path: "/accountManagement",
+    headerTittle: "Account Management",
+  }
 
 
 

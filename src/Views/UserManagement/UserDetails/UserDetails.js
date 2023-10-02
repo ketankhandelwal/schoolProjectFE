@@ -17,9 +17,12 @@ export default function UserDetails() {
   const navigate = useNavigate();
   const [engagementsDetails, setEngagementsDetails] = useState([]);
   const [totalActions, setTotalActions] = useState(0);
+  const [feesRemaining, setFeesRemaining] = useState(0);
   const location = useLocation();
   const id = location.search.replace("?id=", "");
   const [userDetail, setUser] = useState();
+  const [selectedOption, setSelectedOption] = useState(null); // Store the selected option
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const token = localStorage.getItem("access_token");
 
   useEffect(() => {
@@ -40,44 +43,28 @@ export default function UserDetails() {
       });
   };
 
-  let getStudentFees = async () => {
-    const payload = `/${id}`;
+  let getStudentFees = async (year) => {
+    const payload = `/${id}?year=${year}`;
     Get(studentTotalFeesDetails, token, payload)
       .then((response) => response)
       .then((data) => {
+        console.log(data.data);
         setEngagementsDetails(data?.data?.response);
         setTotalActions(data.data.totalActions);
+        setFeesRemaining(data.data.feesRemaingThisYear);
         setLoading(false);
       });
   };
 
-  // const getUserDetail = () => {
-  //   setLoading(true);
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
 
-  //   const payload = `/${id}`;
-
-  //   Get(getUserDetails, token, payload)
-  //     .then((response) => response)
-  //     .then((data) => {
-
-  //       setUser(data.data);
-  //       setLoading(false);
-  //     });
-  // };
-
-  // const getStudentFees = () => {
-  //   setLoading(true);
-  //   const payload = `/${id}`;
-  //   Get(studentTotalFeesDetails, token, payload)
-  //     .then((response) => response)
-  //     .then((data) => {
-
-  //       setEngagementsDetails( data?.data?.response);
-  //       setTotalActions( data.data.totalActions);
-  //       setLoading(false);
-
-  //     });
-  // };
+  const handleOptionSelect = (option) => {
+    console.log(option);
+    setSelectedOption(option);
+    getStudentFees(option);
+  };
 
   const field = [
     "Month",
@@ -141,39 +128,40 @@ export default function UserDetails() {
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.class_id == 1 ? "Kinder Gardern" : userDetail?.class_id == 2
-                          ? "L.K.G"
-                          : userDetail?.class_id == 3
-                          ? "U.K.G"
-                          : userDetail?.class_id == 4
-                          ? "I"
-                          : userDetail?.class_id == 5
-                          ? "II"
-                          : userDetail?.class_id == 6
-                          ? "III"
-                          : userDetail?.class_id == 7
-                          ? "IV"
-                          : userDetail?.class_id == 8
-                          ? "V"
-                          : userDetail?.class_id == 9
-                          ? "VI"
-                          : userDetail?.class_id == 10
-                          ? "VII"
-                          : userDetail?.class_id == 11
-                          ? "VIII"
-                          : userDetail?.class_id == 12
-                          ? "IX"
-                          : userDetail?.class_id == 13
-                          ? "X"
-                          : userDetail?.class_id == 14
-                          ? "XI"
-                          : userDetail?.class_id == 15
-                          ? "XII"
-                          : ""} 
+                    {userDetail?.class_id == 1
+                      ? "Kinder Gardern"
+                      : userDetail?.class_id == 2
+                      ? "L.K.G"
+                      : userDetail?.class_id == 3
+                      ? "U.K.G"
+                      : userDetail?.class_id == 4
+                      ? "I"
+                      : userDetail?.class_id == 5
+                      ? "II"
+                      : userDetail?.class_id == 6
+                      ? "III"
+                      : userDetail?.class_id == 7
+                      ? "IV"
+                      : userDetail?.class_id == 8
+                      ? "V"
+                      : userDetail?.class_id == 9
+                      ? "VI"
+                      : userDetail?.class_id == 10
+                      ? "VII"
+                      : userDetail?.class_id == 11
+                      ? "VIII"
+                      : userDetail?.class_id == 12
+                      ? "IX"
+                      : userDetail?.class_id == 13
+                      ? "X"
+                      : userDetail?.class_id == 14
+                      ? "XI"
+                      : userDetail?.class_id == 15
+                      ? "XII"
+                      : ""}
                   </span>
                 </div>
               </div>
-
 
               <div className="flex items-center py-3">
                 <div className="w-2/4">
@@ -182,11 +170,7 @@ export default function UserDetails() {
                   </label>
                 </div>
                 <div className="w-2/4">
-                  <span>
-                    {userDetail?.sec != ""
-                      ? userDetail?.sec
-                      : "-"}
-                  </span>
+                  <span>{userDetail?.sec != "" ? userDetail?.sec : "-"}</span>
                 </div>
               </div>
               <div className="flex items-center py-3">
@@ -242,12 +226,9 @@ export default function UserDetails() {
                   </label>
                 </div>
                 <div className="w-2/4">
-                  <span>
-                    {userDetail?.address ? userDetail?.address : "-"}
-                  </span>
+                  <span>{userDetail?.address ? userDetail?.address : "-"}</span>
                 </div>
               </div>
-
 
               <div className="flex items-center py-3">
                 <div className="w-2/4">
@@ -257,11 +238,10 @@ export default function UserDetails() {
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.mother_name ? userDetail?.mother_name: "-"}
+                    {userDetail?.mother_name ? userDetail?.mother_name : "-"}
                   </span>
                 </div>
               </div>
-
 
               <div className="flex items-center py-3">
                 <div className="w-2/4">
@@ -271,7 +251,7 @@ export default function UserDetails() {
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.father_name? userDetail?.father_name : "-"}
+                    {userDetail?.father_name ? userDetail?.father_name : "-"}
                   </span>
                 </div>
               </div>
@@ -284,7 +264,9 @@ export default function UserDetails() {
                 </div>
                 <div className="w-2/4">
                   <span>
-                    {userDetail?.emergency_phone_number ? userDetail?.emergency_phone_number: "-"}
+                    {userDetail?.emergency_phone_number
+                      ? userDetail?.emergency_phone_number
+                      : "-"}
                   </span>
                 </div>
               </div>
@@ -296,12 +278,10 @@ export default function UserDetails() {
                   </label>
                 </div>
                 <div className="w-2/4">
-                  <span>
-                    {userDetail?.allergy ? userDetail?.allergy : "-"}
-                  </span>
+                  <span>{userDetail?.allergy ? userDetail?.allergy : "-"}</span>
                 </div>
               </div>
-            
+
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -341,9 +321,66 @@ export default function UserDetails() {
         </div>
 
         <br />
-        <h1 className="text-xl mb-4 bg-emerald-300 py-2 px-4 rounded-lg">
-          Student Fees Details - {totalActions} Amonut
-        </h1>
+
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-xl mb-4 bg-emerald-300 py-2 px-4 rounded-lg">
+              Fees Deposited : {totalActions} Rs.
+            </h1>
+          </div>
+          <div>
+            <h1 className="text-xl mb-4 bg-red-300 py-2 px-4 rounded-lg">
+              Remaining Fees : {feesRemaining} Rs.
+            </h1>
+          </div>
+
+          <div className="relative">
+            <button
+              type="button"
+              className="bg-gray-300 hover:bg-gray-400 rounded-full p-2 focus:outline-none"
+              onClick={toggleDropdown}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
+
+            <div
+              className={`absolute top-0 right-0 mt-8 w-40 bg-white border border-gray-300 rounded-lg shadow-lg ${
+                isDropdownOpen ? "" : "hidden"
+              }`}
+            >
+              {/* Dropdown Content */}
+              <ul className="py-2">
+                <li
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                  onClick={() => handleOptionSelect("2023")}
+                >
+                  2023
+                </li>
+                <li
+                  className="px-4 py-2 hover-bg-gray-100 cursor-pointer"
+                  onClick={() => handleOptionSelect("2024")}
+                >
+                  2024
+                </li>
+                {/* Add more dropdown options as needed */}
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="flex-auto">
           <Table
             headerData={field}
