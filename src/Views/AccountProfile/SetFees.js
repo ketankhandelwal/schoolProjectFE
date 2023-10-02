@@ -165,16 +165,50 @@ function SetFees() {
     border: "none",
   };
 
+  
+
+  const tileStyle = {
+    backgroundColor: "white",
+    border: "1px solid #ccc",
+    padding: "10px",
+    borderRadius: "8px",
+    textAlign: "center",
+    fontSize: "18px",
+    cursor: "pointer",
+    transition: "transform 0.2s",
+    margin: "10px",
+  };
+  
+  const tileContainerStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "10px",
+  };
+  
+  const classNameStyle = {
+    textAlign: "center",
+    marginBottom: "5px",
+  };
+  
   const modalStyle = {
     overlay: {
       backgroundColor: "rgba(0, 0, 0, 0.6)",
       zIndex: "1000",
     },
-  };
+    content: {
+      width: "500px",
+      margin: "auto",
+      padding: "20px",
+      borderRadius: "10px",
+      boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+      background: "linear-gradient(135deg, #f5f5f5, #e0e0e0)",
+      border: "none",
+    },
+  };  
 
   return (
     <div>
-      <h1>Class Names</h1>
+      <h3>Please Select The Class To Set Fees </h3>
       <div style={tileContainerStyle}>
         {classList.map((className, index) => (
           <div
@@ -245,15 +279,16 @@ function SetFees() {
           </div>
 
           <div>
+          <button style={buttonStyle} onClick={() => handleSubmit()}>
+              Submit
+            </button>
             <button
-              style={{ ...buttonStyle, marginRight: "10px" }}
+              style={{ ...buttonStyle, marginLeft: "10px" }}
               onClick={closeModal}
             >
               Close
             </button>
-            <button style={buttonStyle} onClick={() => handleSubmit()}>
-              Submit
-            </button>
+            
           </div>
         </div>
       </Modal>
@@ -261,43 +296,6 @@ function SetFees() {
   );
 }
 
-const tileStyle = {
-  backgroundColor: "white",
-  border: "1px solid #ccc",
-  padding: "10px",
-  borderRadius: "8px",
-  textAlign: "center",
-  fontSize: "18px",
-  cursor: "pointer",
-  transition: "transform 0.2s",
-  margin: "10px",
-};
 
-const tileContainerStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "10px",
-};
-
-const classNameStyle = {
-  textAlign: "center",
-  marginBottom: "5px",
-};
-
-const modalStyle = {
-  overlay: {
-    backgroundColor: "rgba(0, 0, 0, 0.6)",
-    zIndex: "1000",
-  },
-  content: {
-    width: "300px",
-    margin: "auto",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
-    background: "linear-gradient(135deg, #f5f5f5, #e0e0e0)",
-    border: "none",
-  },
-};
 
 export default SetFees;
