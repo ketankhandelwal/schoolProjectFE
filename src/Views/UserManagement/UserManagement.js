@@ -11,8 +11,6 @@ import { Get, Post } from "../../Constants/apiMethods";
 import iconAdd from "../../assets/Icons/add.svg";
 import { Link } from "react-router-dom";
 import idCard from "../../assets/Icons/idCard.svg";
-
-import idcard from "../../assets/Icons/idcard.svg";
 import {
   changeStatus,
   getUserList,
