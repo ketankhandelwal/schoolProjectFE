@@ -100,7 +100,7 @@ export default function   () {
   };
 
   const handleDeactivateUser = (user) => {
-    console.log(user);
+
     setStatusModal(true);
     setUserDetails(user);
   };

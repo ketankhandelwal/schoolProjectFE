@@ -48,7 +48,7 @@ export default function UserDetails() {
     Get(studentTotalFeesDetails, token, payload)
       .then((response) => response)
       .then((data) => {
-        console.log(data.data);
+      
         setEngagementsDetails(data?.data?.response);
         setTotalActions(data.data.totalActions);
         setFeesRemaining(data.data.feesRemaingThisYear);
@@ -61,7 +61,7 @@ export default function UserDetails() {
   };
 
   const handleOptionSelect = (option) => {
-    console.log(option);
+  
     setSelectedOption(option);
     getStudentFees(option);
   };

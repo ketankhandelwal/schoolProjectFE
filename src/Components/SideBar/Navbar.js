@@ -16,7 +16,6 @@ import staffCompressed from '../../assets/Icons/staffCompressed.svg'
 import {GiThreeFriends} from 'react-icons/gi'
 export default function Navbar(props) {
   const adminData = useSelector((state) => state.auth.adminData);
-  console.log(adminData)
   const { pathname } = useLocation();
 
   const sideBarData = [

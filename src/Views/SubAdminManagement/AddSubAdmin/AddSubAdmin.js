@@ -81,7 +81,7 @@ export default function AddSubadmin() {
     // imageFile.name ? getPicUrl(imageFile, body) : submitAdminDetails(body)
   };
 
-  // console.log(imageFile.name)
+
 
   // const getPicUrl = (imagedata, data) => {
   //   let formData = new FormData();

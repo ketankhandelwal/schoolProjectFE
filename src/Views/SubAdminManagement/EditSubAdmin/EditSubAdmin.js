@@ -75,7 +75,7 @@ export default function EditSubadmin() {
     let updatedPermissionList;
     if (id === 8) {
       updatedPermissionList = permissionDetails.map((item) => {
-        console.log(item)
+     
         return { ...item, status: status ? 1 : 2 };
       });
     } else {

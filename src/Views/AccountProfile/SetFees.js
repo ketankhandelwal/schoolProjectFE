@@ -36,7 +36,7 @@ function SetFees() {
   const handleChangeYear = async (selectedYear) => {
     try {
       setModalData({});
-      console.log(selectedYear, classId);
+
       openModal(classId, selectedYear);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -52,7 +52,7 @@ function SetFees() {
       Get(getFeesData, token, payload)
         .then((response) => response)
         .then((data) => {
-          console.log(data.data.total_students);
+ 
           setModalData({
             year: Number(year), // Default year or modify based on your requirements
             totalStudents: data?.data?.total_students

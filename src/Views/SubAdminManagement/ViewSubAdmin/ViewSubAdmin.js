@@ -32,7 +32,7 @@ export default function ViewSubAdmin() {
         setLoading(false);
        
         setSubadminData(data.data);
-        console.log("details"+subAdminDetails)
+  
         const permissionData = getPermissionsWithStatus(
           data?.data?.permissions,
           permissionList

@@ -49,7 +49,7 @@ export const PrivateRoutes = [
   },
   {
     element: <MyPDFViewer />,
-    path: "/userManagement/transferCertificate",
+    path: "/transferCertificate/:id",
     headerTittle: "Transfer Certificate",
   },
    {

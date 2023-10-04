@@ -10,9 +10,9 @@ import { useLocation, useNavigate } from "react-router";
 import { Get, Post } from "../../Constants/apiMethods";
 import iconAdd from "../../assets/Icons/add.svg";
 import { Link } from "react-router-dom";
-import idCard from '../../assets/Icons/idCard.svg'
+import idCard from "../../assets/Icons/idCard.svg";
 
-import idcard from "../../assets/Icons/idcard.svg"
+import idcard from "../../assets/Icons/idcard.svg";
 import {
   changeStatus,
   getUserList,
@@ -186,11 +186,9 @@ export default function UserManagement() {
   };
 
   const fetchPermissionList = () => {
-    console.log("Here2")
     Get(subAdminPermissionList, token)
       .then((response) => response)
       .then((data) => {
-        console.log(data.data)
         dispatch({
           type: "PERMISSION_DATA",
           payload: data.data,
@@ -198,9 +196,7 @@ export default function UserManagement() {
       });
   };
 
-
   const getUsers = (type) => {
-    
     setLoading(true);
     let payload = `?type=${type}&page=${currentPage}&count=${pageSize}`;
     if (classValue && classValue != 0) {
@@ -270,7 +266,6 @@ export default function UserManagement() {
     setConvertedContent("");
   };
 
-
   const handleStatus = (id) => {
     const detail = userList.filter((el) => el.id == id);
     setUserDetail(detail[0]);
@@ -278,12 +273,11 @@ export default function UserManagement() {
   };
 
   const submitStatus = () => {
-
     let request = {
       id: userDetail.id,
       status: 3,
     };
-  
+
     Post(deleteStudent, token, request)
       .then((res) => {
         setLoading(false);
@@ -330,8 +324,6 @@ export default function UserManagement() {
             >
               Add Student
             </button>
-
-        
           </div>
         </div>
 
@@ -500,17 +492,15 @@ export default function UserManagement() {
                         {getPageIndex(index + 1)}
                       </td>
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                      
-                      <Link
-                      to={{
-                        
-                        pathname: "userDetails",
-                        search: `id=${item.id}`,
-                      }}
-                      className="text-sky-500 underline"
-                    >
-                      {item.name}
-                    </Link>
+                        <Link
+                          to={{
+                            pathname: "userDetails",
+                            search: `id=${item.id}`,
+                          }}
+                          className="text-sky-500 underline"
+                        >
+                          {item.name}
+                        </Link>
                       </td>
 
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
@@ -577,29 +567,31 @@ export default function UserManagement() {
                           : "-"}
                       </td>
                       <td className="flex flex-auto mt-3 ml-6">
-                        <img   title="Generate ID Card"
-                          className="mr-2 w-1/6 w-8"
-                          src={idCard}
-                          onClick={() =>
-                            navigate("transferCertificate")
-                          }
-                        />
-                        <img title="Delete Student"
+                        <Link
+                          to={`/transferCertificate/${item.id}`}
+                          title="Generate Transfer Certificate"
+                        >
+                          <img
+                            className="mr-2 w-1/6 w-8"
+                            src={idCard}
+                            alt="Generate Transfer Certificate"
+                          />
+                        </Link>
+                        <img
+                          title="Delete Student"
                           className="mr-2 w-1/6 w-7"
                           onClick={() => handleStatus(item.id)}
                           src={blockIcon}
                         />
-                      
 
-                        <img title="Add Fees"
+                        <img
+                          title="Add Fees"
                           className="mr-2 w-1/6 w-7"
-                          onClick={() =>{
-              
+                          onClick={() => {
                             navigate("addFees", {
-                            state: item.id
-                            })}
-                            
-                          }
+                              state: item.id,
+                            });
+                          }}
                           src={iconAdd}
                         />
                       </td>
@@ -621,9 +613,7 @@ export default function UserManagement() {
       {statusModal && (
         <Modal tittle="Are you  sure ?" hide={() => setStatusModal(false)}>
           <div className="flex items-center justify-between">
-            <p>
-              You want delete this student?
-            </p>
+            <p>You want delete this student?</p>
           </div>
           <div className="flex items-center justify-between">
             <button
@@ -645,182 +635,6 @@ export default function UserManagement() {
           </div>
         </Modal>
       )}
-      {/* 
-      {typeModal && (
-        <Modal tittle="Are you  sure ?" hide={() => setTypeModal(false)}>
-          <div className="flex items-center justify-between">
-            <p>You want to upgrade this user as corporate user ?</p>
-          </div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex items-center py-3">
-              <div className="w-2/4">
-                <label className="block text-xl text-left mb-2 md:mb-0 pr-4">
-                  Company -
-                </label>
-              </div>
-              <div className="w-2/3">
-                <select
-                  {...register("company_id", { required: true })}
-                  defaultValue={userList[indexValue].company_id}
-                  onChange={handleCompanyChange}
-                  className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                >
-                  <option value={0}>Select company</option>
-                  {companyList &&
-                    companyList?.map((team) => (
-                      <option key={team.id} value={team.id}>
-                        {team.name}
-                      </option>
-                    ))}
-                </select>
-                {errors.company_id && (
-                  <p className="text-red-500 text-xs italic">
-                    Company is required
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className="flex">
-              <div className="w-2/4"></div>
-              <div className="w-2/3">
-                <p
-                  onClick={() =>
-                    setAddNewCompany(!addNewCompany)
-                  }
-                  className="text-left text-blue-700 mt-1 cursor-pointer"
-                >
-                  Add new company name
-                </p>
-                {addNewCompany && selectedCompany !=0 &&
-                <p className="text-orange-400 text-sm text-left mb-2">Please deselect the company dropdown for adding new company</p>
-                }
-              </div>
-            </div>
-            {addNewCompany && selectedCompany == 0? (
-              <div className="flex items-center  py-3">
-                <div className="w-2/4"></div>
-                <div className="w-2/3">
-                  <input
-                    {...register("company_name", { required: true })}
-                    placeholder="Company Name"
-                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    type="text"
-                  />
-                  {errors.company_name && (
-                    <p className="text-red-500 text-xs italic">
-                      Company Name is required
-                    </p>
-                  )}
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => {
-                  handleToggle(indexValue);
-                }}
-                className="bg-bodyColor hover:shadow-customShadow text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button"
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-emerald-600 hover:shadow-customShadow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="submit"
-              >
-                Yes
-              </button>
-            </div>
-          </form>
-        </Modal>
-      )} */}
-      {/* {emailModal && (
-        <div className="flex overflow-x-hidden overflow-y-auto fixed h-modal top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center bg-modalbackColor">
-          <div className="relative w-9/12">
-            <div className="w-11/12 bg-white rounded-lg shadow relative dark:bg-gray-700">
-              <div className="items-start justify-between p-3 border-b rounded-t dark:border-gray-600">
-                <div className="flex items-center px-10 pt-10 ">
-                  <div className="w-1/4">
-                    <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                      Subject -
-                    </label>
-                  </div>
-                  <div className="w-9/12">
-                    <input
-                      id={1}
-                      className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      type="text"
-                      onChange={handleSubject}
-                    />
-                  </div>
-                </div>
-                <div className="flex p-10 mb-0">
-                  <div className="w-1/4">
-                    <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                      Email Body -
-                    </label>
-                  </div>
-                  <div className="w-1/12">
-                    <Editor
-                      wrapperStyle={wrapperStyle}
-                      editorStyle={editorStyle}
-                      editorState={editorState}
-                      onEditorStateChange={handleEditorChange}
-                      toolbar={{
-                        options: [
-                          "inline",
-                          "blockType",
-                          "fontSize",
-                          "textAlign",
-                          "history",
-                          "colorPicker",
-                        ],
-                        inline: {
-                         options: ['italic', 'bold'],
-                          bold: { className: 'demo-option-custom' },
-                        italic: { className: 'demo-option-custom' },
-                          underline: { className: 'demo-option-custom' },
-                          strikethrough: { className: 'demo-option-custom' },
-                          monospace: { className: 'demo-option-custom' },
-                          superscript: { className: 'demo-option-custom' },
-                           subscript: { className: 'demo-option-custom' }
-                         },
-                        blockType: {
-                          className: 'demo-option-custom-wide',
-                          dropdownClassName: 'demo-dropdown-custom'
-                       },
-                       fontSize: { className: 'demo-option-custom-medium' }
-                      }}
-                    />
-                    <div className="flex items-center justify-between">
-                    </div> 
-                  </div>
-                </div>
-                <div className="flex justify-end mr-11">
-                  <button
-                    onClick={() => cancelMail()}
-                    className=" w-52 bg-emerald-600 hover:shadow-customShadow text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline"
-                    type="button"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="w-52 bg-emerald-600 hover:shadow-customShadow text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="submit"
-                    onClick={() => {
-                      handleSendEmail();
-                    }}
-                  >
-                    Send Mail
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )} */}
     </>
   );
 }
