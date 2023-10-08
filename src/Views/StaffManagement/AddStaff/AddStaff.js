@@ -24,7 +24,7 @@ export default function AddStaff(props) {
 
   const onSubmit = (data) => {
     setLoading(true);
-    data.profile_photo = String(data.profile_photo);
+  
     data.name = String(data.name);
     data.phone_number = String(data.phone_number);
     data.role = Number(data.role);
@@ -39,7 +39,6 @@ export default function AddStaff(props) {
     data.gender = Number(data.gender);
     data.date_of_birth = new Date(data.date_of_birth);
 
-    data.profile_photo = document.getElementById("profile_photo").value;
     Post(addStaff, token, data)
       .then((res) => {
         setLoading(false);
@@ -54,25 +53,7 @@ export default function AddStaff(props) {
       });
   };
 
-  const getPicUrl = (data) => {
-    setLoading(true);
 
-    let formData = new FormData();
-    const imagedata = data.target.files[0];
-    formData.append("file", imagedata, imagedata.name);
-
-    Post2(uploadFile, token, formData)
-      .then((res) => {
-        setLoading(false);
-
-        document.getElementById("profile_photo").value = res.data.Key;
-      })
-      .catch((error) => {
-        setLoading(false);
-
-        toast.error(error.message);
-      });
-  };
 
   return (
     <>
@@ -374,28 +355,8 @@ export default function AddStaff(props) {
             </div>
           </div>
 
-          <div className="flex items-center  py-3">
-            <div className="w-1/3">
-              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                Profile Picture -
-              </label>
-            </div>
-            <div className="w-2/3">
-              <input
-                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="file"
-                onChange={(event) => getPicUrl(event)}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-              {/* {errors.date_of_birth && <p className="text-red-500 text-xs italic">Profile picture is required</p>} */}
-            </div>
-          </div>
-          <input
-            type="text"
-            className="hidden"
-            {...register("profile_photo")}
-            id="profile_photo"
-          />
+        
+       
 
           <div className="flex items-center py-3">
             <div className="w-1/3">

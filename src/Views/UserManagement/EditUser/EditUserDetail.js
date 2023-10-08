@@ -24,7 +24,7 @@ export default function EditUser(props) {
   const [userDetail, setUser] = useState();
   const [picUrl, setPicUrl] = useState(dummyUser);
   const [picKey, setPicKey] = useState("");
-  const [updateProfile, setUpdatePic] = useState(false);
+
   const [selectedCompany, setSelectedCompany] = useState(0);
   const {
     register,
@@ -40,12 +40,10 @@ export default function EditUser(props) {
 
   const getCompanys = () => {
     // setLoading(true);
-
     // Post(company, token, "")
     //   .then((response) => response)
     //   .then((data) => {
     //     setLoading(false);
-
     //     setCompanys(data.data.data);
     //   });
   };
@@ -58,10 +56,7 @@ export default function EditUser(props) {
       .then((data) => {
         setLoading(false);
         const userData = data.data;
-        let profilePic = userData?.profile_photo
-          ? userData?.profile_photo
-          : dummyUser;
-        setPicUrl(profilePic);
+
         setUser(userData);
         reset(userData);
       });
@@ -70,19 +65,16 @@ export default function EditUser(props) {
   const onSubmit = (data) => {
     setLoading(true);
     let userData = userDetail;
-    userData.profile_photo = data.profile_photo;
+
     userData.name = data.name;
     userData.phone_number = data.phone_number;
     userData.emergency_phone_number = data.emergency_phone_number;
     userData.allergy = data.allergy;
-   
+
     userData.class_id = Number(data.class_id);
     userData.sec = data.sec;
     userData.address = data.address;
-  
 
-   
-   
     userData.gender = Number(data.gender);
 
     Post(updateUserDetails, token, userData)
@@ -99,33 +91,6 @@ export default function EditUser(props) {
       });
   };
 
-  const getPicUrl = (data) => {
-    setLoading(true);
-
-    let formData = new FormData();
-    const imagedata = data.target.files[0];
-    formData.append("file", imagedata, imagedata.name);
-    Post2(uploadFile, token, formData)
-      .then((res) => {
-        setLoading(false);
-        let userData = userDetail;
-        userData.profile_photo = res.data.key;
-        setUser(userData);
-        setPicKey(res.data.key);
-        setUpdatePic(true);
-        let payload = `?key=${res.data.key}`;
-        Get(fileSignatureAddForPublic, token, payload)
-          .then((response) => response)
-          .then((res) => {
-            setPicUrl(res.data.signatureUrl);
-          });
-      })
-      .catch((error) => {
-        setLoading(false);
-
-        toast.error(error.message);
-      });
-  };
   const handleCompanyChange = ({ target }) => {
     setSelectedCompany(target.value);
     setAddNewCompany(false);
@@ -147,11 +112,7 @@ export default function EditUser(props) {
       <div className="mx-6">
         <div className="flex flex-row justify-end my-4">
           <button
-            onClick={() =>
-              navigate("/userManagement", {
-              
-              })
-            }
+            onClick={() => navigate("/userManagement", {})}
             className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="button"
           >
@@ -195,46 +156,45 @@ export default function EditUser(props) {
                   )}
                 </div>
               </div>
-         
 
               <div className="flex items-center  py-3">
-            <div className="w-2/4">
-              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                Class -
-              </label>
-            </div>
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Class -
+                  </label>
+                </div>
 
-              <div className="w-2/3">
-              <select
-                {...register("class_id", { required: true })}
-                defaultValue={userDetail?.class_id}
-                // defaultValue={props.data && props.data.UserRole}
-                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              >
-                <option value={0}>Class</option>
-                <option value={1}>Kinder Garden</option>
-                <option value={2}>L.K.G</option>
-                <option value={3}>U.K.G</option>
-                <option value={4}>I</option>
-                <option value={5}>II</option>
-                <option value={6}>III</option>
-                <option value={7}>IV</option>
-                <option value={8}>V</option>
-                <option value={9}>VI</option>
-                <option value={10}>VII</option>
-                <option value={11}>VIII</option>
-                <option value={12}>IX</option>
-                <option value={13}>X</option>
-                <option value={14}>XI</option>
-                <option value={15}>XII</option>
-              </select>
-              {errors.class_id && (
-                <p className="text-red-500 text-xs italic">Class is required</p>
-              )}
-            </div>
-            </div>
-
-          
+                <div className="w-2/3">
+                  <select
+                    {...register("class_id", { required: true })}
+                    defaultValue={userDetail?.class_id}
+                    // defaultValue={props.data && props.data.UserRole}
+                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  >
+                    <option value={0}>Class</option>
+                    <option value={1}>Kinder Garden</option>
+                    <option value={2}>L.K.G</option>
+                    <option value={3}>U.K.G</option>
+                    <option value={4}>I</option>
+                    <option value={5}>II</option>
+                    <option value={6}>III</option>
+                    <option value={7}>IV</option>
+                    <option value={8}>V</option>
+                    <option value={9}>VI</option>
+                    <option value={10}>VII</option>
+                    <option value={11}>VIII</option>
+                    <option value={12}>IX</option>
+                    <option value={13}>X</option>
+                    <option value={14}>XI</option>
+                    <option value={15}>XII</option>
+                  </select>
+                  {errors.class_id && (
+                    <p className="text-red-500 text-xs italic">
+                      Class is required
+                    </p>
+                  )}
+                </div>
+              </div>
 
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
@@ -246,7 +206,6 @@ export default function EditUser(props) {
                   <input
                     {...register("sec", {
                       required: true,
-                     
                     })}
                     defaultValue={userDetail?.sec}
                     placeholder="Section"
@@ -261,7 +220,6 @@ export default function EditUser(props) {
                 </div>
               </div>
 
-
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -272,7 +230,6 @@ export default function EditUser(props) {
                   <input
                     {...register("phone_number", {
                       required: true,
-                     
                     })}
                     defaultValue={userDetail?.phone_number}
                     placeholder="Phone Number"
@@ -297,7 +254,6 @@ export default function EditUser(props) {
                   <input
                     {...register("address", {
                       required: true,
-                     
                     })}
                     defaultValue={userDetail?.address}
                     placeholder="Address"
@@ -312,8 +268,6 @@ export default function EditUser(props) {
                 </div>
               </div>
 
-           
-
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -324,7 +278,6 @@ export default function EditUser(props) {
                   <input
                     {...register("emergency_phone_number", {
                       required: false,
-                     
                     })}
                     defaultValue={userDetail?.emergency_phone_number}
                     placeholder="Emergency Phone Number"
@@ -334,8 +287,6 @@ export default function EditUser(props) {
                 </div>
               </div>
 
-
-           
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -363,7 +314,7 @@ export default function EditUser(props) {
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                    Allergy  -
+                    Allergy -
                   </label>
                 </div>
                 <div className="w-2/3">
@@ -374,15 +325,9 @@ export default function EditUser(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                
                 </div>
               </div>
 
-
-          
-            
-          
-           
               <div className="flex items-center py-3">
                 <div className="w-2/4"></div>
                 <div className="w-2/3">
@@ -395,20 +340,6 @@ export default function EditUser(props) {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="w-1/4 ml-2">
-            <img className="w-full rounded-full" src={picUrl} />
-            <label>
-              {" "}
-              <img className="float-right mb-2" src={cameraIcon} />
-              <input
-                type="file"
-                className="hidden"
-                onChange={(event) => getPicUrl(event)}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-            </label>
           </div>
         </form>
       </div>

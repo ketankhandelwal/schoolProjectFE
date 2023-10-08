@@ -40,12 +40,12 @@ export default function AddUser(props) {
 
   const onSubmit = (data) => {
     setLoading(true);
-    data.class_id =Number(data.class_id);
-   
+    data.class_id = Number(data.class_id);
+
     data.gender = String(data.gender);
     data.date_of_birth = new Date(data.date_of_birth);
 
-    data.profile_photo = document.getElementById("profile_photo").value;
+   
     Post(addUser, token, data)
       .then((res) => {
         setLoading(false);
@@ -60,27 +60,6 @@ export default function AddUser(props) {
       });
   };
 
-  const getPicUrl = (data) => {
-    setLoading(true);
-
-    let formData = new FormData();
-    const imagedata = data.target.files[0];
-    formData.append("file", imagedata, imagedata.name);
-
-    Post2(uploadFile, token, formData)
-      .then((res) => {
-        setLoading(false);
-
-        document.getElementById("profile_photo").value = res.data.Key;
-      })
-      .catch((error) => {
-        setLoading(false);
-
-        toast.error(error.message);
-      });
-  };
-
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -92,9 +71,7 @@ export default function AddUser(props) {
         <div className="flex">
           <div className="w-5/6 text-right mb-4">
             <button
-              onClick={() =>
-                navigate("/userManagement")
-              }
+              onClick={() => navigate("/userManagement")}
               className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
             >
@@ -131,8 +108,6 @@ export default function AddUser(props) {
               )}
             </div>
           </div>
-         
-      
 
           <div className="flex items-center  py-3">
             <div className="w-1/3">
@@ -141,7 +116,6 @@ export default function AddUser(props) {
               </label>
             </div>
 
-            
             <div className="w-2/3">
               <select
                 {...register("class_id", { required: true })}
@@ -400,65 +374,7 @@ export default function AddUser(props) {
               )}
             </div>
           </div>
-          <div className="flex items-center  py-3">
-            <div className="w-1/3">
-              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
-                Profile Picture -
-              </label>
-            </div>
-            <div className="w-2/3">
-              <input
-                className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="file"
-                onChange={(event) => getPicUrl(event)}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-              {/* {errors.date_of_birth && <p className="text-red-500 text-xs italic">Profile picture is required</p>} */}
-            </div>
-          </div>
-          <input
-            type="text"
-            className="hidden"
-            {...register("profile_photo")}
-            id="profile_photo"
-          />
 
-          {/* <div className="flex">
-            <div className="w-1/3"></div>
-            <div className="w-2/3">
-              <p
-                onClick={() =>
-                  setAddNewCompany(!addNewCompany)
-                }
-                className="text-left text-blue-700 cursor-pointer"
-              >
-                Add new company name
-              </p>
-              {addNewCompany && selectedCompany !=0 &&
-                <p className="text-orange-400">Please deselect the company dropdown for adding new company</p>
-                }
-            </div>
-          </div> */}
-          {/* {addNewCompany && selectedCompany == 0 ? (
-            <div className="flex items-center  py-3">
-              <div className="w-1/3"></div>
-              <div className="w-2/3">
-                <input
-                  {...register("company_name", { required: true })}
-                  placeholder="Company Name"
-                  className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  type="text"
-                />
-                {errors.company_name && (
-                  <p className="text-red-500 text-xs italic">
-                    Company Name is required
-                  </p>
-                )}
-              </div>
-            </div>
-          ) : (
-            ""
-          )} */}
           <div className="flex items-center py-3">
             <div className="w-1/3">
               <label className="block text-xl text-left mb-1 md:mb-0 pr-4">

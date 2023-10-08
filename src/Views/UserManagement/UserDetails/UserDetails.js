@@ -61,7 +61,7 @@ export default function UserDetails() {
   };
 
   const handleOptionSelect = (option) => {
-  
+  toggleDropdown()
     setSelectedOption(option);
     getStudentFees(option);
   };
@@ -370,7 +370,7 @@ export default function UserDetails() {
                   2023
                 </li>
                 <li
-                  className="px-4 py-2 hover-bg-gray-100 cursor-pointer"
+                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => handleOptionSelect("2024")}
                 >
                   2024

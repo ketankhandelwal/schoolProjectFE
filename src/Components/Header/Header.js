@@ -5,10 +5,9 @@ import { useDispatch } from 'react-redux';
 import Modal from '../../Components/Modal/Modal';
 import { toast } from 'react-toastify';
 import { FaBars } from 'react-icons/fa'
-
+import { AiOutlineClose } from 'react-icons/ai' // Import AiOutlineClose icon
 import Navbar from '../SideBar/Navbar';
-import schoolName from '../../assets/Icons/simpleSchoolName.png'
-
+import schoolName from '../../assets/Icons/SchoolLogo.png'
 
 export default function Header(props) {
     const [dropDown, setDropDown] = useState('hidden');
@@ -29,20 +28,14 @@ export default function Header(props) {
 
     return (
         <>
-            <header className='flex flex-row justify-between bg-white shadow p-6 pt-2 mb-2 bg-emerald-300'>
+            <header className='flex flex-row justify-between bg-emerald-300 shadow p-6 pt-2 mb-2 bg-emerald-300'>
                 <div className='w-60 mt-2 flex'>
-                {/* <div className='mr-4'> <Hamburger toggled={!sideBar} toggle={showSideBar} size={30} duration={0.5}/></div> */}
-                    <div className='mr-4 ml-3 mt-2 cursor-pointer'><FaBars size={30} onClick ={showSideBar} /></div>:
-                    {/* <div className='mr-4'><AiOutlineClose size={30} onClick ={showSideBar} /></div> */}
-                    {/* <img  src={schoolName} /> */}
+                    <div className='mr-4 ml-3 mt-2 cursor-pointer'><FaBars size={30} onClick ={showSideBar} /></div>
                 </div>
-                <div>
+                <div className='text-3xl absolute left-20 ml-6 mt-3 xs:hidden'>
+                    <i>Learning Tree School</i> {/* Add the header text in italics */}
                 </div>
-                {/* <div className='text-3xl absolute left-80 ml-6 mt-6 xs:hidden'>
-                    {props.tittle}
-                </div> */}
                 <div className='flex flex-row'>
-                    {/* <img className="cursor-pointer m-4 h-8" src={bellIcon} /> */}
                     <div className="mt-2 relative z-50 w-56 " onClick={showDropDown}>
                         <button className="font-semibold border border-gray-400 rounded-lg py-2 px-4 inline-flex items-center">
                             <span className="mr-1">Welcome Admin</span>
@@ -78,13 +71,12 @@ export default function Header(props) {
                 </div>
             </Modal>
             }
-                <div className='flex flex-row min-h-screen'>
-                    <Navbar toggleSideBar ={sideBar}/>
-                    <div className='flex-auto w-3/4 bg-white shadow m-1'>
-                        {props.childData}
-                    </div>
+            <div className='flex flex-row min-h-screen'>
+                <Navbar toggleSideBar ={sideBar}/>
+                <div className='flex-auto w-3/4 bg-white shadow m-1'>
+                    {props.childData}
                 </div>
-
+            </div>
         </>
     )
 }

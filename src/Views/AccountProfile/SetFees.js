@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { Post, Get } from "../../Constants/apiMethods";
-import { setFeesData, getFeesData } from "../../Constants/apiRoutes";
+import {
+  setFeesData,
+  getFeesData,
+  getUserList,
+} from "../../Constants/apiRoutes";
 
 function SetFees() {
   const token = localStorage.getItem("access_token");
@@ -31,6 +35,7 @@ function SetFees() {
     totalStudents: "",
     totalMonths: "",
     feePerStudent: "",
+    reaminingFees: "",
   });
 
   const handleChangeYear = async (selectedYear) => {
@@ -49,21 +54,23 @@ function SetFees() {
       setClassId(class_id);
       setnewYear(year);
       const payload = `?class_id=${class_id}&year=${year}`;
+
       Get(getFeesData, token, payload)
         .then((response) => response)
         .then((data) => {
- 
-          setModalData({
-            year: Number(year), // Default year or modify based on your requirements
-            totalStudents: data?.data?.total_students
-              ? data?.data?.total_students
-              : "",
-            totalMonths: data?.data?.total_months_fees_collected
-              ? data?.data?.total_months_fees_collected
-              : "",
-            feePerStudent: data?.data?.fees_per_student
-              ? data?.data?.fees_per_student
-              : "",
+          const payload2 = `?page=1&count=1000&classes=${class_id}&status=1`;
+          Get(getUserList, token, payload2).then((data2) => {
+            setModalData({
+              year: Number(year),
+              totalStudents: data2?.data?.count ? data2?.data?.count : "",
+              totalMonths: data?.data?.result?.total_months_fees_collected
+                ? data?.data?.result?.total_months_fees_collected
+                : "",
+              feePerStudent: data?.data?.result?.fees_per_student
+                ? data?.data?.result?.fees_per_student
+                : "",
+              reaminingFees: data?.data?.remaingAmountForThisYear,
+            });
           });
         });
 
@@ -92,7 +99,7 @@ function SetFees() {
         class_id: Number(classId),
         year: Number(newYear),
         total_student: Number(modalData.totalStudents),
-        fees_per_student: Number(modalData.feePerStudent),
+        fees_per_student: Number(modalData?.feePerStudent),
         total_months_fees_collected: Number(modalData.totalMonths),
       };
 
@@ -236,12 +243,15 @@ function SetFees() {
             <option value="2024">2024</option>
           </select>
           <div style={inputGroupStyle}>
-            <label style={labelStyle}>Total Students:</label>
+            <label style={labelStyle}>
+              Total Students(As Per Enrollment on Portal)
+            </label>
             <input
               type="text"
               style={inputStyle}
               value={modalData.totalStudents}
               onChange={(e) => handleTotalStudentsChange(e.target.value)}
+              readOnly
             />
           </div>
           <div style={inputGroupStyle}>
@@ -263,7 +273,7 @@ function SetFees() {
             />
           </div>
           <div style={inputGroupStyle}>
-            <label style={labelStyle}>Total Fees For Year = </label>
+            <label style={labelStyle}>Total Fees= </label>
             <input
               type="text"
               style={inputStyle}
@@ -272,6 +282,15 @@ function SetFees() {
                 Number(modalData.totalMonths) *
                 Number(modalData.totalStudents)
               }
+              readOnly
+            />
+          </div>
+          <div style={inputGroupStyle}>
+            <label style={labelStyle}>Remaing Fees = </label>
+            <input
+              type="text"
+              style={inputStyle}
+              value={modalData.reaminingFees}
               readOnly
             />
           </div>

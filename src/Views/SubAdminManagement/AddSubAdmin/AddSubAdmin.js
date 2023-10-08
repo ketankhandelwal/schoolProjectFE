@@ -26,7 +26,6 @@ export default function AddSubadmin() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const picUrl = dummyUser;
   useEffect(() => {
     fetchPermissionList();
   }, []);
@@ -43,7 +42,7 @@ export default function AddSubadmin() {
           name: "All Permissions",
           status: 2,
         });
-       const permissionData =  data?.data?.map((item) => {
+        const permissionData = data?.data?.map((item) => {
           return { ...item, status: 2 };
         });
         setPermissionList(permissionData);
@@ -72,29 +71,13 @@ export default function AddSubadmin() {
       email: data.email,
       phone_number: data.phone_number,
       permission: getPermissionArray,
-      password : data.password,
+      password: data.password,
       role: 2,
       designation: data.designation,
-      profile_photo: "abcde"
     };
     submitAdminDetails(body);
     // imageFile.name ? getPicUrl(imageFile, body) : submitAdminDetails(body)
   };
-
-
-
-  // const getPicUrl = (imagedata, data) => {
-  //   let formData = new FormData();
-  //   formData.append("file", imagedata, imagedata.name);
-  //   Post2(uploadFile, token, formData)
-  //     .then((res) => {
-  //       data.profile_photo = res.data.Key;
-        
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error.message);
-  //     });
-  // };
 
   const submitAdminDetails = (body) => {
     Post(createSubAdmin, token, body)
@@ -220,7 +203,6 @@ export default function AddSubadmin() {
                 </div>
               </div>
 
-
               <div className="flex items-center  py-3">
                 <div className="w-1/3">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -265,12 +247,8 @@ export default function AddSubadmin() {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                
                 </div>
               </div>
-
-            
-
 
               <div className="flex items-center py-3">
                 <div className="w-1/3">
@@ -335,27 +313,12 @@ export default function AddSubadmin() {
                       type="submit"
                       className="rounded-lg bg-green-700 text-white hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                     >
-                      Save 
+                      Save
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-1/4 ml-2">
-            <img className="w-full rounded-full" src={previewImage || picUrl} />
-            <label>
-              <img className="float-right" src={cameraIcon} />
-              <input
-                {...register("image", { required: false })}
-                id="profile_photo"
-                type="file"
-                className="hidden"
-                onChange={handleChangeImage}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-           
-            </label>
           </div>
         </form>
       </div>

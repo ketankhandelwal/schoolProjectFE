@@ -6,25 +6,20 @@ import {
   getStaffDetails,
   updateStaffDetails,
 } from "../../../Constants/apiRoutes";
-import { uploadFile, company } from "../../../Constants/apiRoutes";
-import { Get, Post, Post2 } from "../../../Constants/apiMethods";
+
+import { Get, Post } from "../../../Constants/apiMethods";
 import { toast } from "react-toastify";
-import moment from "moment";
+
 import LoadingSpinner from "../../../Components/Loader/index";
-import dummyUser from "../../../assets/Icons/dummyUser.svg";
-import cameraIcon from "../../../assets/Icons/camera.svg";
 
 export default function EditStaff(props) {
   const token = localStorage.getItem("access_token");
   const [loading, setLoading] = useState(false);
-  const [companyList, setCompanys] = useState();
-  const [addNewCompany, setAddNewCompany] = useState(false);
+
   const location = useLocation();
   const navigate = useNavigate();
   const [staffDetail, setStaff] = useState();
-  const [picUrl, setPicUrl] = useState(dummyUser);
-  const [picKey, setPicKey] = useState("");
-  const [updateProfile, setUpdatePic] = useState(false);
+
   const [selectedCompany, setSelectedCompany] = useState(0);
   const {
     register,
@@ -37,15 +32,6 @@ export default function EditStaff(props) {
     getStaffDetail();
   }, []);
 
-  const getCompanys = () => {
-    // setLoading(true);
-    // Post(company, token, "")
-    //   .then((response) => response)
-    //   .then((data) => {
-    //     setLoading(false);
-    //     setCompanys(data.data.data);
-    //   });
-  };
   const getStaffDetail = () => {
     setLoading(true);
 
@@ -55,10 +41,7 @@ export default function EditStaff(props) {
       .then((data) => {
         setLoading(false);
         const userData = data.data;
-        let profilePic = userData?.profile_photo
-          ? userData?.profile_photo
-          : dummyUser;
-        setPicUrl(profilePic);
+
         setStaff(userData);
         reset(userData);
       });
@@ -67,7 +50,7 @@ export default function EditStaff(props) {
   const onSubmit = (data) => {
     setLoading(true);
     let userData = staffDetail;
-    userData.profile_photo = data.profile_photo;
+
     userData.name = data.name;
     userData.phone_number = data.phone_number;
     userData.role = Number(data.role);
@@ -95,38 +78,6 @@ export default function EditStaff(props) {
       });
   };
 
-  const getPicUrl = (data) => {
-    setLoading(true);
-
-    let formData = new FormData();
-    const imagedata = data.target.files[0];
-    formData.append("file", imagedata, imagedata.name);
-    Post2(uploadFile, token, formData)
-      .then((res) => {
-        setLoading(false);
-        let userData = staffDetail;
-        userData.profile_photo = res.data.key;
-        setStaff(userData);
-        setPicKey(res.data.key);
-        setUpdatePic(true);
-        let payload = `?key=${res.data.key}`;
-        Get(fileSignatureAddForPublic, token, payload)
-          .then((response) => response)
-          .then((res) => {
-            setPicUrl(res.data.signatureUrl);
-          });
-      })
-      .catch((error) => {
-        setLoading(false);
-
-        toast.error(error.message);
-      });
-  };
-  const handleCompanyChange = ({ target }) => {
-    setSelectedCompany(target.value);
-    setAddNewCompany(false);
-  };
-
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -134,7 +85,7 @@ export default function EditStaff(props) {
       <div className="mx-6 mt-2">
         <h1 className="text-2xl">
           {`Staff Management > ${
-            location.state.type == "corporate"
+            location.state.type === "corporate"
               ? "Corporate Users"
               : "General Users"
           } > Edit`}
@@ -203,7 +154,7 @@ export default function EditStaff(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                  {errors.age?.type == "required" && (
+                  {errors.age?.type === "required" && (
                     <p className="text-red-500 text-xs italic">
                       Email is required
                     </p>
@@ -225,7 +176,7 @@ export default function EditStaff(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   >
                     <option value={0}>Role</option>
-                   
+
                     <option value={3}>Teacher</option>
                     <option value={4}>Transport</option>
                     <option value={5}>Cleaner</option>
@@ -255,7 +206,7 @@ export default function EditStaff(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                  {errors.address?.type == "required" && (
+                  {errors.address?.type === "required" && (
                     <p className="text-red-500 text-xs italic">
                       Address is required
                     </p>
@@ -279,7 +230,7 @@ export default function EditStaff(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                  {errors.phone_number?.type == "required" && (
+                  {errors.phone_number?.type === "required" && (
                     <p className="text-red-500 text-xs italic">
                       Phone Number is required
                     </p>
@@ -303,7 +254,7 @@ export default function EditStaff(props) {
                     className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                   />
-                  {errors.salary?.type == "required" && (
+                  {errors.salary?.type === "required" && (
                     <p className="text-red-500 text-xs italic">
                       Salary is required
                     </p>
@@ -346,7 +297,6 @@ export default function EditStaff(props) {
                   />
                 </div>
               </div>
-
 
               <div className="flex items-center  py-3">
                 <div className="w-2/4">
@@ -401,20 +351,6 @@ export default function EditStaff(props) {
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="w-1/4 ml-2">
-            <img className="w-full rounded-full" src={picUrl} />
-            <label>
-              {" "}
-              <img className="float-right mb-2" src={cameraIcon} />
-              <input
-                type="file"
-                className="hidden"
-                onChange={(event) => getPicUrl(event)}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-            </label>
           </div>
         </form>
       </div>

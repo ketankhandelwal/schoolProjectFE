@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { Get, Post, Post2 } from "../../Constants/apiMethods";
+import { Get, Post } from "../../Constants/apiMethods";
 import {
   adminDetails,
   adminUpdateDetails,
-  uploadFile,
+
 } from "../../Constants/apiRoutes";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../../Components/Loader/index";
-import UserDetails from "../UserManagement/UserDetails/UserDetails";
 
 export default function AdminProfile(props) {
   const token = localStorage.getItem("access_token");
   const [profileValues, setProfileValues] = useState();
   const [loading, setLoading] = useState(false);
 
-  const {
-    handleSubmit,
-  } = useForm();
+  const { handleSubmit } = useForm();
 
   useEffect(() => {
-    
     getAdminDetails();
   }, []);
 
@@ -31,7 +27,7 @@ export default function AdminProfile(props) {
 
   const getAdminDetails = () => {
     setLoading(true);
-   
+
     Get(adminDetails, token, "")
       .then((response) => response)
       .then((data) => {
@@ -46,33 +42,17 @@ export default function AdminProfile(props) {
 
     let body = {
       name: profileValues.name,
-      profile_photo: "abcde" ,
+      profile_photo: "abcde",
       phone_number: profileValues.phone_number,
     };
+
+    console.log(body,"body");
 
     Post(adminUpdateDetails, token, body)
       .then((res) => {
         setLoading(false);
 
         toast.success("Profile updated successfully");
-      })
-      .catch((error) => {
-        handleApiError(error)
-      });
-  };
-
-  const getPicUrl = (data) => {
-    setLoading(true);
-
-    let formData = new FormData();
-    const imagedata = data.target.files[0];
-    formData.append("file", imagedata, imagedata.name);
-
-    Post2(uploadFile, token, formData)
-      .then((res) => {
-        setLoading(false);
-
-        document.getElementById("profile_photo").value = res.data.Key;
       })
       .catch((error) => {
         handleApiError(error);
@@ -87,7 +67,7 @@ export default function AdminProfile(props) {
 
   const handlePhone = (e) => {
     const data = profileValues;
-    data.phone = e.target.value;
+    data.phone_number = e.target.value;
     setProfileValues(data);
   };
 
@@ -103,25 +83,6 @@ export default function AdminProfile(props) {
           onSubmit={handleSubmit(onSubmit)}
         >
           {loading && <LoadingSpinner />}
-
-          <div className="text-center py-3">
-            {profileValues?.profile_photo ? (
-              <img
-                src={profileValues?.profile_photo}
-                alt="profile_photo"
-                className="image ml-48"
-              />
-            ) : (
-              ""
-            )}
-            <input
-              className="mt-4"
-              type="file"
-              onChange={(event) => getPicUrl(event)}
-              accept=".png ,.jpg, .jpeg, .webp"
-            />
-            <input type="text" className="hidden" id="profile_pic" />
-          </div>
 
           <div className="flex items-center py-3">
             <div className="w-1/3">
@@ -148,7 +109,7 @@ export default function AdminProfile(props) {
             </div>
             <div className="w-2/3">
               <input
-                pattern=' /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/'
+                pattern=" /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/"
                 defaultValue={profileValues?.email}
                 placeholder="Email Address"
                 className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"

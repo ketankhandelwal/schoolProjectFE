@@ -23,7 +23,7 @@ export default function EditSubadmin() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone_number, setPhoneNumber] = useState("");
-  const [designation,setDesignation] = useState("");
+  const [designation, setDesignation] = useState("");
   const [permissionDetails, setPermissionDetails] = useState([]);
   const [subAdminDetails, setSubadminData] = useState();
   const [previewImage, setPreviewImage] = useState("");
@@ -33,17 +33,15 @@ export default function EditSubadmin() {
   const dispatch = useDispatch();
   const picUrl = dummyUser;
   const isLoggedInUser = currentUser.id == location.state ? true : false;
-  
 
   useEffect(() => {
     getSubAdminDetails();
   }, []);
 
   const getSubAdminDetails = () => {
-    
     setLoading(true);
     const payload = `?id=${location.state.id}`;
-    
+
     Get(`${getSubAdminDetail}${payload}`, token)
       .then((response) => response)
       .then((data) => {
@@ -68,14 +66,13 @@ export default function EditSubadmin() {
     setName(data?.name);
     setEmail(data?.email);
     setPhoneNumber(data?.phone_number);
-    setDesignation(data?.designation)
+    setDesignation(data?.designation);
   };
 
   const handlePermissions = (status, id) => {
     let updatedPermissionList;
     if (id === 8) {
       updatedPermissionList = permissionDetails.map((item) => {
-     
         return { ...item, status: status ? 1 : 2 };
       });
     } else {
@@ -96,33 +93,13 @@ export default function EditSubadmin() {
       phone_number: String(phone_number),
       permission: getPermissionArray,
       designation: String(designation),
-      profile_photo: subAdminDetails?.profile_photo,
     };
-    submitAdminDetails(body)
-    // imageFile.name ? getPicUrl(imageFile, body) : submitAdminDetails(body);
+    submitAdminDetails(body);
   };
-
- 
-
-  
-
-  // const getPicUrl = (imagedata, data) => {
-  //   let formData = new FormData();
-  //   formData.append("file", imagedata, imagedata.name);
-  //   Post2(uploadFile, token, formData)
-  //     .then((res) => {
-  //       data.profile_photo = res.data.key;
-  //       submitAdminDetails(data);
-  //     })
-  //     .catch((error) => {
-  //       toast.error(error.message)
-  //     });
-  // };
 
   const submitAdminDetails = (body) => {
     Post(updateSubAdmin, token, body)
       .then((res) => {
-        
         setLoading(false);
 
         navigate("/sd");
@@ -209,12 +186,11 @@ export default function EditSubadmin() {
                 <div className="w-2/3">
                   <input
                     placeholder="Designation"
-                    className = "shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                     value={designation}
                     onChange={({ target }) => setDesignation(target.value)}
                   />
-                
                 </div>
               </div>
               <div className="flex items-center  py-3">
@@ -226,7 +202,7 @@ export default function EditSubadmin() {
                 <div className="w-2/3">
                   <input
                     placeholder="phone number"
-                    className = "shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
                     value={phone_number}
                     onChange={({ target }) => setPhoneNumber(target.value)}
@@ -251,9 +227,7 @@ export default function EditSubadmin() {
                 </div>
                 <div className="w-2/3">
                   <span>
-                    {subAdminDetails?.status === 1
-                      ? "Active"
-                      : "Not Active"}
+                    {subAdminDetails?.status === 1 ? "Active" : "Not Active"}
                   </span>
                 </div>
               </div>
@@ -265,9 +239,7 @@ export default function EditSubadmin() {
                 </div>
                 <div className="w-2/3">
                   <span>
-                    {moment(subAdminDetails?.created_at).format(
-                      "DD-MM-YYYY"
-                    )}
+                    {moment(subAdminDetails?.created_at).format("DD-MM-YYYY")}
                   </span>
                 </div>
               </div>
@@ -311,25 +283,6 @@ export default function EditSubadmin() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="w-1/4 ml-2">
-            <img
-              className="w-full rounded-full"
-              src={
-                previewImage || subAdminDetails?.subAdminProfilePic || picUrl
-              }
-            />
-            <label>
-              <img className="float-right" src={cameraIcon} />
-              <input
-                type="file"
-                id="profile_photo"
-                className="hidden"
-                onChange={handleChangeImage}
-                accept=".png ,.jpg, .jpeg, .webp"
-              />
-          
-            </label>
           </div>
         </div>
       </div>

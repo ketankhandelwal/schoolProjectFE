@@ -1,19 +1,15 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { useSelector } from "react-redux";
-import iconDash from "../../assets/Icons/dashboard.svg";
+
 import iconUserManage from "../../assets/Icons/userManagement.svg";
-import iconContentManage from "../../assets/Icons/contentManagement.svg";
-import iconCategoryManage from "../../assets/Icons/catergoryManagement.svg";
-import iconNotificationManage from "../../assets/Icons/notification.svg";
-import iconStaticContentManage from "../../assets/Icons/staticContentManagement.svg";
+
 import iconSubAdminManage from "../../assets/Icons/sub-adminManagement.svg";
 import indianCurrency from "../../assets/Icons/currency.png"
-import helpIcon from "../../assets/Icons/help.svg";
-import appIntroIcon from "../../assets/Icons/appIntro.svg"
+
 import { NavLink } from "react-router-dom";
 import staffCompressed from '../../assets/Icons/staffCompressed.svg'
-import {GiThreeFriends} from 'react-icons/gi'
+
 export default function Navbar(props) {
   const adminData = useSelector((state) => state.auth.adminData);
   const { pathname } = useLocation();
@@ -43,7 +39,7 @@ export default function Navbar(props) {
     },
     {
       id:4,
-      title: "Account Management",
+      tittle: "Accounts Management",
       icon:indianCurrency,
       url:"/accountManagement",
       status:1

@@ -10,7 +10,6 @@ import dummyUser from "../../../assets/Icons/dummyUser.svg";
 import { useSelector } from "react-redux";
 
 export default function ViewSubAdmin() {
-  const permissionList = useSelector((state) => state.auth.permissionList);
   const navigate = useNavigate();
   const location = useLocation();
   const [subAdminDetails, setSubadminData] = useState();
@@ -18,6 +17,8 @@ export default function ViewSubAdmin() {
   const [permissionDetails, setPermissionDetails] = useState([]);
   const [loading, setLoading] = useState(false);
   const id = location.search.replace("?id=", "");
+
+  const permissionList = useSelector((state) => state.auth.permissionList);
 
   useEffect(() => {
     getSubAdminDetails();
@@ -30,9 +31,11 @@ export default function ViewSubAdmin() {
       .then((response) => response)
       .then((data) => {
         setLoading(false);
-       
+
         setSubadminData(data.data);
-  
+        console.log(data.data.permissions, "per");
+        console.log(permissionList, "list");
+
         const permissionData = getPermissionsWithStatus(
           data?.data?.permissions,
           permissionList
@@ -41,7 +44,6 @@ export default function ViewSubAdmin() {
       });
   };
 
-  
   return (
     <>
       {loading && <LoadingSpinner />}
@@ -55,7 +57,9 @@ export default function ViewSubAdmin() {
             title="Edit Student"
             className="rounded-md mr-3 bg-slate-200 hover:shadow-customShadow font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             src={editIcon}
-            onClick={() => navigate("EditSubAdmin", {state:{id:subAdminDetails.id}})}
+            onClick={() =>
+              navigate("EditSubAdmin", { state: { id: subAdminDetails.id } })
+            }
           />
 
           <button
@@ -143,12 +147,7 @@ export default function ViewSubAdmin() {
               </div>
             </div>
           </div>
-          <div className="w-1/4 ml-2">
-            <img
-              className="w-full rounded-full"
-              src={subAdminDetails?.profile_photo || dummyUser}
-            />
-          </div>
+         
         </div>
       </div>
     </>

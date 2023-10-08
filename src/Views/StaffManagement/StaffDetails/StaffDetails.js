@@ -23,7 +23,7 @@ export default function StaffDetails() {
 
   useEffect(() => {
     getStaffDetail();
-    getStaffLeaves();
+    // getStaffLeaves();
   }, []);
 
   let getStaffDetail = async () => {
