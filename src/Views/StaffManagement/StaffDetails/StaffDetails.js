@@ -175,6 +175,58 @@ export default function StaffDetails() {
               <div className="flex items-center py-3">
                 <div className="w-2/4">
                   <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Class teacher -
+                  </label>
+                </div>
+                <div className="w-2/4">
+                <span>
+                    {userDetail?.class_teacher == 1
+                      ? "Kinder Gardern"
+                      : userDetail?.class_teacher == 2
+                      ? "L.K.G"
+                      : userDetail?.class_teacher == 3
+                      ? "U.K.G"
+                      : userDetail?.class_teacher == 4
+                      ? "I"
+                      : userDetail?.class_teacher == 5
+                      ? "II"
+                      : userDetail?.class_teacher == 6
+                      ? "III"
+                      : userDetail?.class_teacher == 7
+                      ? "IV"
+                      : userDetail?.class_teacher == 8
+                      ? "V"
+                      : userDetail?.class_teacher == 9
+                      ? "VI"
+                      : userDetail?.class_teacher == 10
+                      ? "VII"
+                      : userDetail?.class_teacher == 11
+                      ? "VIII"
+                      : userDetail?.class_teacher == 12
+                      ? "IX"
+                      : userDetail?.class_teacher == 13
+                      ? "X"
+                      : userDetail?.class_teacher == 14
+                      ? "XI"
+                      : userDetail?.class_teacher == 15
+                      ? "XII"
+                      : ""}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Section
+                  </label>
+                </div>
+                <div className="w-2/4">
+                  <span>{userDetail?.section}</span>
+                </div>
+              </div>
+              <div className="flex items-center py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
                     Years of Experience
                   </label>
                 </div>

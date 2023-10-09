@@ -24,7 +24,8 @@ export default function AddStaff(props) {
 
   const onSubmit = (data) => {
     setLoading(true);
-  
+    console.log(data.class_teacher);
+
     data.name = String(data.name);
     data.phone_number = String(data.phone_number);
     data.role = Number(data.role);
@@ -35,9 +36,14 @@ export default function AddStaff(props) {
     data.last_qualification = String(data.last_qualification);
     data.subject_speciality = String(data.subject_speciality);
     data.YOE = Number(data.YOE);
+    data.class_teacher = Number(data.class_id);
+    data.section = String(data.sec);
 
     data.gender = Number(data.gender);
     data.date_of_birth = new Date(data.date_of_birth);
+
+    delete data.class_id;
+    delete data.sec;
 
     Post(addStaff, token, data)
       .then((res) => {
@@ -52,8 +58,6 @@ export default function AddStaff(props) {
         toast.error(error.message);
       });
   };
-
-
 
   return (
     <>
@@ -151,6 +155,66 @@ export default function AddStaff(props) {
             </div>
           </div>
 
+          <div className="flex items-center  py-3">
+            <div className="w-1/3">
+              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                Class -
+              </label>
+            </div>
+
+            <div className="w-2/3">
+              <select
+                {...register("class_id", { required: false })}
+                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value={0}>Class</option>
+                <option value={1}>Kinder Garden</option>
+                <option value={2}>L.K.G</option>
+                <option value={3}>U.K.G</option>
+                <option value={4}>I</option>
+                <option value={5}>II</option>
+                <option value={6}>III</option>
+                <option value={7}>IV</option>
+                <option value={8}>V</option>
+                <option value={9}>VI</option>
+                <option value={10}>VII</option>
+                <option value={11}>VIII</option>
+                <option value={12}>IX</option>
+                <option value={13}>X</option>
+                <option value={14}>XI</option>
+                <option value={15}>XII</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex items-center py-3">
+            <div className="w-1/3">
+              <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                Section
+              </label>
+            </div>
+            <div className="w-2/3">
+              <select
+                {...register("sec", { required: false })}
+                // onChange={handleCompanyChange}
+                className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option value={0} selected>
+                  Select Section
+                </option>
+                <option value={"A"}>A</option>
+                <option value={"B"}>B</option>
+                <option value={"C"}>C</option>
+                <option value={"D"}>D</option>
+                <option value={"E"}>E</option>
+                <option value={"F"}>F</option>
+                <option value={"G"}>G</option>
+                <option value={"H"}>H</option>
+                <option value={"I"}>I</option>
+              </select>
+            </div>
+          </div>
+
           <div className="flex items-center py-3">
             <div className="w-1/3">
               <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
@@ -199,7 +263,6 @@ export default function AddStaff(props) {
               )}
             </div>
           </div>
-
 
           <div className="flex items-center  py-3">
             <div className="w-1/3">
@@ -354,9 +417,6 @@ export default function AddStaff(props) {
               )}
             </div>
           </div>
-
-        
-       
 
           <div className="flex items-center py-3">
             <div className="w-1/3">

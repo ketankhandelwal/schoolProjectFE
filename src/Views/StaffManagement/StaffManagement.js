@@ -139,9 +139,11 @@ export default function StaffManagement() {
         "Email",
         "Phone Number",
         "Role",
-        "YOE",
-        "Gender",
-        "Status",
+        "Salary",
+
+        "Class Teacher",
+        "Section",
+
         "Joined On",
         "Action",
       ]
@@ -151,20 +153,16 @@ export default function StaffManagement() {
         "Email",
         "Phone Number",
         "Role",
-        "YOE",
-        "Gender",
-        "Status",
+        "Salary",
+
+        "Class Teacher",
+        "Section",
+
         "Joined On",
         "Action",
       ];
 
-  const field2 = [
-    "#",
-    "Leave Type",
-    "From",
-    "To",
-    "Total Count"
-  ];
+  const field2 = ["#", "Leave Type", "From", "To", "Total Count"];
   const {
     register,
     handleSubmit,
@@ -188,9 +186,7 @@ export default function StaffManagement() {
     setLoading(true);
     let payload = `?type=${type}&page=${currentPage}&count=${pageSize}`;
     if (roleValue && roleValue != 0) {
-      
       payload = payload + `&role=${roleValue}`;
-  
     }
     if (startDate) {
       payload = payload + `&start_date=${startDate}`;
@@ -242,8 +238,6 @@ export default function StaffManagement() {
     setStatusModal(true);
   };
 
-
-
   const submitStatus = () => {
     let request = {
       id: staffDetail.id,
@@ -267,9 +261,8 @@ export default function StaffManagement() {
 
   const submitLeave = (data) => {
     let payload = `?id=${leaveId}`;
-   
+
     if (data.month && Number(data.month) != 0) {
-     
       payload = payload + `&month=${data.month}`;
     }
 
@@ -418,11 +411,7 @@ export default function StaffManagement() {
                         {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
                         {item.email}
                       </td>
-                      {/* <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                        {item.date_of_birth != null
-                          ? moment(item.date_of_birth).format("DD-MM-YYYY")
-                          : "-"}
-                      </td> */}
+
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.phone_number}
                       </td>
@@ -446,21 +435,45 @@ export default function StaffManagement() {
                       </td>
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
-                        {item.YOE} Years
+                        {item.salary}
                       </td>
-
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                        {item.gender == 1
-                          ? "Male"
-                          : item.gender == 2
-                          ? "Female"
-                          : item.gender == 3
-                          ? "Other"
+                        {item.class_teacher == 1
+                          ? "Kinder Garden"
+                          : item.class_teacher == 2
+                          ? "L.K.G"
+                          : item.class_teacher == 3
+                          ? "U.K.G"
+                          : item.class_teacher == 4
+                          ? "I"
+                          : item.class_teacher == 5
+                          ? "II"
+                          : item.class_teacher == 6
+                          ? "III"
+                          : item.class_teacher == 7
+                          ? "IV"
+                          : item.class_teacher == 8
+                          ? "V"
+                          : item.class_teacher == 9
+                          ? "VI"
+                          : item.class_teacher == 10
+                          ? "VII"
+                          : item.class_teacher == 11
+                          ? "VIII"
+                          : item.class_teacher == 12
+                          ? "IX"
+                          : item.class_teacher == 13
+                          ? "X"
+                          : item.class_teacher == 14
+                          ? "XI"
+                          : item.class_teacher == 15
+                          ? "XII"
                           : ""}
                       </td>
 
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
-                        {item.status === 1 ? "Active" : "Inactive"}
+                        {/* {item.sec == 1 ? "A" : item.sec == 2 ? "B" : item.sec == 3 ? "C" : item.sec == 4 ? "D" : item.sec == 5 ? "E" : item.sec == 6 ? "F" : item.sec == 7 ? "G" : item.sec == 8 ?"H" : item.sec == 9 ? "I" : "" } */}
+                        {item.section == 0 ? "" : item.section}
                       </td>
                       <td className="border-t-0 px-2 align-middle border-l-0 border-r-0  p-4 text-center">
                         {item.created_at != null
@@ -487,7 +500,6 @@ export default function StaffManagement() {
                           title="Add Fees"
                           className="mr-2 w-1/6 w-7"
                           onClick={() => {
-                           
                             navigate("addLeaves", {
                               state: item.id,
                             });

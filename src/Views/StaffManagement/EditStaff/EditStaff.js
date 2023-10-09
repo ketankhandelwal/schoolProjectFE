@@ -37,9 +37,9 @@ export default function EditStaff(props) {
 
     const payload = `/${location.state.id}`;
     Get(getStaffDetails, token, payload)
-      .then((response) => response)
       .then((data) => {
         setLoading(false);
+        console.log(data.data.class_teacher, "dtaa");
         const userData = data.data;
 
         setStaff(userData);
@@ -61,8 +61,13 @@ export default function EditStaff(props) {
     userData.last_qualification = String(data.last_qualification);
     userData.subject_speciality = String(data.subject_speciality);
     userData.YOE = Number(data.YOE);
+    userData.class_teacher = Number(data.class_teacher);
+    userData.section = String(data.section);
 
     userData.gender = Number(data.gender);
+
+    delete data.class_id;
+    delete data.sec;
 
     Post(updateStaffDetails, token, userData)
       .then((res) => {
@@ -187,6 +192,66 @@ export default function EditStaff(props) {
                   {errors.role && (
                     <p className="text-red-500 text-xs italic">Role</p>
                   )}
+                </div>
+              </div>
+
+              <div className="flex items-center  py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Class -
+                  </label>
+                </div>
+                <div className="w-2/3">
+                  <select
+                    {...register("class_teacher", { required: false })}
+                    defaultValue={staffDetail?.class_teacher}
+                    className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  >
+                    <option value={0}>Class</option>
+                    <option value={1}>Kinder Garden</option>
+                    <option value={2}>L.K.G</option>
+                    <option value={3}>U.K.G</option>
+                    <option value={4}>I</option>
+                    <option value={5}>II</option>
+                    <option value={6}>III</option>
+                    <option value={7}>IV</option>
+                    <option value={8}>V</option>
+                    <option value={9}>VI</option>
+                    <option value={10}>VII</option>
+                    <option value={11}>VIII</option>
+                    <option value={12}>IX</option>
+                    <option value={13}>X</option>
+                    <option value={14}>XI</option>
+                    <option value={15}>XII</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex items-center  py-3">
+                <div className="w-2/4">
+                  <label className="block text-xl text-left mb-1 md:mb-0 pr-4">
+                    Section -
+                  </label>
+                </div>
+                <div className="w-2/3">
+                  <select
+                    {...register("section", { required: false })}
+                    defaultValue={staffDetail?.section}
+                    className="shadow border border-gray-400 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  >
+                    <option value={""} selected>
+                      Select Section
+                    </option>
+                    <option value={"A"}>A</option>
+                    <option value={"B"}>B</option>
+                    <option value={"C"}>C</option>
+                    <option value={"D"}>D</option>
+                    <option value={"E"}>E</option>
+                    <option value={"F"}>F</option>
+                    <option value={"G"}>G</option>
+                    <option value={"H"}>H</option>
+                    <option value={"I"}>I</option>
+                  </select>
                 </div>
               </div>
 
